@@ -5,7 +5,8 @@ module.exports = {
     alias: {
       "@": path.resolve(__dirname, "..", "..", "app/javascript/packs"),
       "@views": path.resolve(__dirname, "..", "..", "app/javascript/packs/views"),
-      "@components": path.resolve(__dirname, "..", "..", "app/javascript/packs/components")
+      "@components": path.resolve(__dirname, "..", "..", "app/javascript/packs/components"),
+      "@utils": path.resolve(__dirname, "..", "..", "app/javascript/packs/utils")
     }
   }
 };
