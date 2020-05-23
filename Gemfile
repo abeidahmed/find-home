@@ -19,11 +19,12 @@ gem 'jbuilder', '~> 2.7'
 # gem 'redis', '~> 4.0'
 # Use Active Model has_secure_password
 gem 'bcrypt', '~> 3.1.7'
-#JWT
+# JWT
 gem 'jwt', '~> 2.2', '>= 2.2.1'
 # Use Active Storage variant
 # gem 'image_processing', '~> 1.2'
-
+# Pagination gem
+gem 'will_paginate', '~> 3.3'
 # Reduces boot times through caching; required in config/boot.rb
 gem 'bootsnap', '>= 1.4.2', require: false
 
