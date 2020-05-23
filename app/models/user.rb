@@ -24,4 +24,15 @@ class User < ApplicationRecord
   def is_password?(password)
     BCrypt::Password.new(self.password_digest).is_password?(password)
   end
+
+  def self.search(search)
+    if search
+      self.where(
+        "lower(first_name) LIKE :search OR lower(last_name) LIKE :search OR lower(email) LIKE :search", 
+        search: "%#{search.downcase}%"
+      )
+    else
+      self.all
+    end
+  end
 end
