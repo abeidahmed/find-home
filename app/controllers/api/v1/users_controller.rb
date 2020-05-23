@@ -1,6 +1,6 @@
 class Api::V1::UsersController < ApplicationController
   def index
-    @users = User.search(params[:search])
+    @users = User.search(params[:search]).paginate(page: params[:page])
   end
 
   def create
