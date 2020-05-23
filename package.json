@@ -14,10 +14,6 @@
     "react-dom": "^16.13.1",
     "react-router-dom": "^5.2.0"
   },
-  "scripts": {
-    "webpack:deploy": "webpack --config=webpack/webpack.config.js -p",
-    "heroku-postbuild": "npm run webpack:deploy"
-  },
   "version": "0.1.0",
   "devDependencies": {
     "@tailwindcss/ui": "^0.3.0",
