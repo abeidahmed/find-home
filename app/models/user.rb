@@ -44,16 +44,16 @@ class User < ApplicationRecord
     self.where(admin: false)
   end
 
-  def self.search(search, user_type)
-    if search && user_type.blank?
+  def self.search(search, user_role)
+    if search && user_role.blank?
       self.search_query(search)
-    elsif search.blank? && user_type == "admin"
+    elsif search.blank? && user_role == "admin"
       self.is_admin
-    elsif search.blank? && user_type == "user"
+    elsif search.blank? && user_role == "user"
       self.is_not_admin
-    elsif search && user_type == "admin"
+    elsif search && user_role == "admin"
       self.search_query(search).is_admin
-    elsif search && user_type == "user"
+    elsif search && user_role == "user"
       self.search_query(search).is_not_admin
     else
       self.all
