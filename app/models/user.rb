@@ -29,12 +29,32 @@ class User < ApplicationRecord
     BCrypt::Password.new(self.password_digest).is_password?(password)
   end
 
-  def self.search(search)
-    if search
-      self.where(
-        "lower(first_name) LIKE :search OR lower(last_name) LIKE :search OR lower(email) LIKE :search", 
-        search: "%#{search.downcase}%"
-      )
+  def self.search_query(search)
+    self.where(
+      "lower(first_name) LIKE :search OR lower(last_name) LIKE :search OR lower(email) LIKE :search", 
+      search: "%#{search.downcase}%"
+    )
+  end
+
+  def self.is_admin
+    self.where(admin: true)
+  end
+
+  def self.is_not_admin
+    self.where(admin: false)
+  end
+
+  def self.search(search, user_type)
+    if search && user_type.blank?
+      self.search_query(search)
+    elsif search.blank? && user_type == "admin"
+      self.is_admin
+    elsif search.blank? && user_type == "user"
+      self.is_not_admin
+    elsif search && user_type == "admin"
+      self.search_query(search).is_admin
+    elsif search && user_type == "user"
+      self.search_query(search).is_not_admin
     else
       self.all
     end
