@@ -15,9 +15,6 @@ class User < ApplicationRecord
   validates :password, presence: true, length: { minimum: 6 }, allow_blank: true
   validates :first_name, :last_name, presence: true, length: { maximum: 255 }
 
-  ROLES = %w(guest user admin)
-  validates :role, inclusion: { in: ROLES }
-
   # Class method for finding a user ONLY if we have the correct email and password
   def self.find_by_credentials(email, password)
     user = self.find_by(email: email)
