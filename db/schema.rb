@@ -20,9 +20,10 @@ ActiveRecord::Schema.define(version: 2020_05_23_032232) do
     t.string "last_name", null: false
     t.string "email", null: false
     t.string "password_digest"
+    t.string "role", default: "guest"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
-    t.index ["first_name", "last_name", "email"], name: "index_users_on_first_name_and_last_name_and_email"
+    t.index ["first_name", "last_name", "email", "role"], name: "index_users_on_first_name_and_last_name_and_email_and_role"
   end
 
 end
