@@ -1,4 +1,6 @@
 class ApplicationController < ActionController::Base
+  skip_before_action :verify_authenticity_token
+  
   def encode_credential_for(user)
     secret_key = Rails.application.secrets.secret_key_base
     data_to_encode = { user_id: "#{user.id}" }
