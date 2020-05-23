@@ -1,4 +1,4 @@
-require_relative 'boot'
+require_relative boot'
 
 require 'rails/all'
 
@@ -16,10 +16,13 @@ module FindHome
     # -- all .rb files in that directory are automatically loaded after loading
     # the framework and any gems in your application.
 
-    #disable asset generation
+    # disable asset generation
     config.generators do |g|
       g.assets false
       g.test_framework nil
     end
+
+    # join font assets folder
+    config.assets.paths << Rails.root.join("app", "assets", "fonts")
   end
 end
