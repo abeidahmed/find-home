@@ -3,7 +3,6 @@ class Api::V1::UsersController < ApplicationController
     @user = User.create(user_params)
     if @user.save
       encode_credential_for(@user)
-      
       render :new, status: :created
     else
       render json: @user.errors.full_messages, status: :bad_request
