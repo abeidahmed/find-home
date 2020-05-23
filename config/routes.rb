@@ -6,5 +6,6 @@ Rails.application.routes.draw do
     end
   end
 
+  root to: "root#root"
   get "/*path", to: "root#root"
 end
