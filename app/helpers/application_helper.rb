@@ -1,4 +1,5 @@
 module ApplicationHelper
+  # Find the current user from the token set on header: "Bearer token_key"
   def current_user
     header = request.headers["Authorization"]
     unless header.blank?
@@ -8,5 +9,10 @@ module ApplicationHelper
       id = decoded_token[0]["user_id"]
       User.find_by(id: id)
     end
+  end
+
+  # Sets the date format to: 23rd May, 2020
+  def format_date(current_date)
+    current_date.strftime("#{current_date.day.ordinalize} %b, %Y")
   end
 end
