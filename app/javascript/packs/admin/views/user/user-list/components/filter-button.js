@@ -1,12 +1,24 @@
 import React, { useRef, useState } from "react";
 import Icon from "@components/icon";
-import { Link } from "react-router-dom";
+import { Link, useLocation, useHistory } from "react-router-dom";
 import { useOnOutsideClick } from "@utils/on-outside-click";
 
 const FilterButton = ({ match }) => {
   const [filterActive, setFilterActive] = useState(false);
   const ref = useRef();
   useOnOutsideClick(ref, () => setFilterActive(false));
+
+  const location = useLocation();
+  const history = useHistory();
+  const addQuery = (key, value) => {
+    let pathname = location.pathname;
+    let searchParams = new URLSearchParams(location.search);
+    searchParams.set(key, value);
+    history.push({
+      pathname: pathname,
+      search: searchParams.toString()
+    });
+  };
 
   return (
     <span ref={ref} className="relative shadow-sm rounded-md">
@@ -28,27 +40,30 @@ const FilterButton = ({ match }) => {
         role="menu"
       >
         <div className="py-1 rounded-md bg-white shadow-xs">
-          <Link
-            to={`${match.path}`}
-            className="block px-4 py-2 text-sm leading-5 text-gray-700 hover:bg-gray-100 focus:outline-none focus:bg-gray-100 transition duration-150 ease-in-out"
+          <button
+            type="button"
+            onClick={() => addQuery("user_role", "")}
+            className="block w-full text-left px-4 py-2 text-sm leading-5 text-gray-700 hover:bg-gray-100 focus:outline-none focus:bg-gray-100 transition duration-150 ease-in-out"
             role="menuitem"
           >
             All
-          </Link>
-          <Link
-            to={`${match.path}?user_role=admin`}
-            className="block px-4 py-2 text-sm leading-5 text-gray-700 hover:bg-gray-100 focus:outline-none focus:bg-gray-100 transition duration-150 ease-in-out"
+          </button>
+          <button
+            type="button"
+            onClick={() => addQuery("user_role", "admin")}
+            className="block w-full text-left px-4 py-2 text-sm leading-5 text-gray-700 hover:bg-gray-100 focus:outline-none focus:bg-gray-100 transition duration-150 ease-in-out"
             role="menuitem"
           >
             Admin
-          </Link>
-          <Link
-            to={`${match.path}?user_role=user`}
-            className="block px-4 py-2 text-sm leading-5 text-gray-700 hover:bg-gray-100 focus:outline-none focus:bg-gray-100 transition duration-150 ease-in-out"
+          </button>
+          <button
+            type="button"
+            onClick={() => addQuery("user_role", "user")}
+            className="block w-full text-left px-4 py-2 text-sm leading-5 text-gray-700 hover:bg-gray-100 focus:outline-none focus:bg-gray-100 transition duration-150 ease-in-out"
             role="menuitem"
           >
             Users
-          </Link>
+          </button>
         </div>
       </div>
     </span>
