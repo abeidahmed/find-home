@@ -3,7 +3,7 @@ import ReactDOM from "react-dom";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import { Provider } from "react-redux";
 import { store } from "@/store";
-import { fetchCurrentUser } from "@/api/current-user";
+import { fetchCurrentUser } from "@/api/user/current-user";
 import AdminRoute from "@admin/routes/admin-route";
 import PublicRoute from "@/routes/public-route";
 
