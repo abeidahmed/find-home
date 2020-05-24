@@ -5,10 +5,11 @@ import { fetchAllUsers } from "@api/user/user-list";
 import Icon from "@components/icon";
 import Pagination from "./components/pagination";
 import { SearchField } from "@components/search";
+import { Spinner } from "@components/spinner";
 import UserTable from "./components/user-table";
 import { useOnOutsideClick } from "@utils/on-outside-click";
 
-const UserList = ({ fetchUsers, users }) => {
+const UserList = ({ fetchUsers, loading, users }) => {
   const [filterActive, setFilterActive] = useState(false);
   const ref = useRef();
   useOnOutsideClick(ref, () => setFilterActive(false));
@@ -19,6 +20,8 @@ const UserList = ({ fetchUsers, users }) => {
     };
     fetchAllUsers();
   }, [fetchUsers]);
+
+  if (loading) return <Spinner />;
 
   return (
     <AdminLayout>
@@ -76,8 +79,9 @@ const UserList = ({ fetchUsers, users }) => {
 };
 
 const mapStateToProps = state => {
-  const { users } = state.userList;
+  const { loading, users } = state.userList;
   return {
+    loading,
     users
   };
 };
