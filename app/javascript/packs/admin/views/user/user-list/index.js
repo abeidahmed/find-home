@@ -56,21 +56,21 @@ const UserList = ({ match, location, fetchUsers, loading, users }) => {
               <div className="py-1 rounded-md bg-white shadow-xs">
                 <Link
                   to={`${match.path}`}
-                  className="block w-full text-left px-4 py-2 text-sm leading-5 text-gray-700 hover:bg-gray-100 focus:outline-none focus:bg-gray-100 transition duration-150 ease-in-out"
+                  className="block px-4 py-2 text-sm leading-5 text-gray-700 hover:bg-gray-100 focus:outline-none focus:bg-gray-100 transition duration-150 ease-in-out"
                   role="menuitem"
                 >
                   All
                 </Link>
                 <Link
                   to={`${match.path}?user_role=admin`}
-                  className="block w-full text-left px-4 py-2 text-sm leading-5 text-gray-700 hover:bg-gray-100 focus:outline-none focus:bg-gray-100 transition duration-150 ease-in-out"
+                  className="block px-4 py-2 text-sm leading-5 text-gray-700 hover:bg-gray-100 focus:outline-none focus:bg-gray-100 transition duration-150 ease-in-out"
                   role="menuitem"
                 >
                   Admin
                 </Link>
                 <Link
                   to={`${match.path}?user_role=user`}
-                  className="block w-full text-left px-4 py-2 text-sm leading-5 text-gray-700 hover:bg-gray-100 focus:outline-none focus:bg-gray-100 transition duration-150 ease-in-out"
+                  className="block px-4 py-2 text-sm leading-5 text-gray-700 hover:bg-gray-100 focus:outline-none focus:bg-gray-100 transition duration-150 ease-in-out"
                   role="menuitem"
                 >
                   Users
