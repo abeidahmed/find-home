@@ -3,6 +3,8 @@ Rails.application.routes.draw do
     namespace :v1 do
       resources :users, only: [:index, :create]
       resources :sessions, only: [:create]
+
+      get "/logged_in", to: "sessions#logged_in"
     end
   end
 

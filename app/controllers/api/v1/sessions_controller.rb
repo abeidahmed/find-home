@@ -9,6 +9,14 @@ class Api::V1::SessionsController < ApplicationController
     end
   end
 
+  def logged_in
+    if current_user.nil?
+      render json: { message: "You need to login" }, status: :unauthorized
+    else
+      render :show
+    end
+  end
+
   private
 
   def email_params
