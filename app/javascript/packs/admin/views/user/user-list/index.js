@@ -12,13 +12,14 @@ import UserTable from "./components/user-table";
 const UserList = ({ match, location, fetchUsers, loading, users }) => {
   let queryParam = queryString.parse(location.search);
   let userRoleParam = queryParam.user_role;
+  let pageNumber = queryParam.page;
 
   useEffect(() => {
     const fetchAllUsers = () => {
       fetchUsers(queryParam);
     };
     fetchAllUsers();
-  }, [fetchUsers, userRoleParam]);
+  }, [fetchUsers, userRoleParam, pageNumber]);
 
   if (loading) return <Spinner />;
 
@@ -33,7 +34,7 @@ const UserList = ({ match, location, fetchUsers, loading, users }) => {
         </div>
       </div>
       <UserTable users={users} />
-      <Pagination />
+      <Pagination match={match} location={location} />
     </AdminLayout>
   );
 };
