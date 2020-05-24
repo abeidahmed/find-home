@@ -3,9 +3,12 @@ import { AvatarWithButton } from "@components/avatar";
 import { connect } from "react-redux";
 import { Link, useHistory } from "react-router-dom";
 import { links, profileLinks } from "./links";
+import { useOnOutsideClick } from "@utils/on-outside-click";
 
 const DesktopLinks = ({ currentUser }) => {
   const [profileActive, setProfileActive] = useState(false);
+  const ref = useRef();
+  useOnOutsideClick(ref, () => setProfileActive(false));
 
   return (
     <nav className="flex items-center space-x-8">
@@ -20,7 +23,7 @@ const DesktopLinks = ({ currentUser }) => {
       ))}
 
       {currentUser ? (
-        <div className="relative">
+        <div ref={ref} className="relative">
           <AvatarWithButton toggleDropdown={setProfileActive} dropdownState={profileActive} />
 
           <div
