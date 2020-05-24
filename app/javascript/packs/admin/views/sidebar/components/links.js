@@ -16,7 +16,7 @@ const Links = () => {
     },
     {
       title: "Users",
-      path: "/admin/dashboard",
+      path: "/admin/users",
       icon: "users"
     }
   ];
