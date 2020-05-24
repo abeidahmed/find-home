@@ -7,7 +7,7 @@ export const SearchField = ({ size, ...props }) => {
       <input
         className={`${
           size === "sm" ? "h-9" : size === "lg" ? "h-10" : ""
-        } block w-full form-input pl-9 pr-3 text-sm`}
+        } block w-full form-input pl-9 pr-3 text-sm border-gray-300`}
         {...props}
       />
       <div className="absolute inset-y-0 flex items-center left-0 pl-3">
