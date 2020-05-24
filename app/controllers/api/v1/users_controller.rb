@@ -1,6 +1,10 @@
 class Api::V1::UsersController < ApplicationController
   def index
-    @users = User.search(params[:search]).user_role(params[:user_role]).paginate(page: params[:page])
+    if current_user.admin?
+      @users = User.search(params[:search]).user_role(params[:user_role]).paginate(page: params[:page])
+    else
+      render json: { message: "You are not authorized to view this page" }, status: :unauthorized
+    end
   end
 
   def create
