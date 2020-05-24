@@ -25,6 +25,7 @@ const Links = () => {
     <nav className="mt-2 mb-4 px-1 text-gray-400 font-medium">
       {navLinks.map(link => (
         <Link
+          key={link.title}
           to={link.path}
           className="my-1 flex items-center px-2 bg-transparent rounded-md py-2 hover:text-gray-600 transition duration-150"
         >
