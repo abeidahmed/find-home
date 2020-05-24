@@ -8,7 +8,8 @@ export const fetchAllUsers = param => (dispatch, getState) => {
     {
       url: "/api/v1/users",
       query: {
-        user_role: param.user_role
+        user_role: param.user_role,
+        page: param.page
       }
     },
     { skipEmptyString: true }
