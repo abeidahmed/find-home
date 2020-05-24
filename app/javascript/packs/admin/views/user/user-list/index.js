@@ -1,15 +1,24 @@
-import React, { useState, useRef } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import { AdminLayout } from "@components/layout";
+import { connect } from "react-redux";
+import { fetchAllUsers } from "@api/user/user-list";
 import Icon from "@components/icon";
 import Pagination from "./components/pagination";
 import { SearchField } from "@components/search";
 import UserTable from "./components/user-table";
 import { useOnOutsideClick } from "@utils/on-outside-click";
 
-const UserList = () => {
+const UserList = ({ fetchUsers, users }) => {
   const [filterActive, setFilterActive] = useState(false);
   const ref = useRef();
   useOnOutsideClick(ref, () => setFilterActive(false));
+
+  useEffect(() => {
+    const fetchAllUsers = () => {
+      fetchUsers();
+    };
+    fetchAllUsers();
+  }, [fetchUsers]);
 
   return (
     <AdminLayout>
@@ -60,10 +69,26 @@ const UserList = () => {
           </span>
         </div>
       </div>
-      <UserTable />
+      <UserTable users={users} />
       <Pagination />
     </AdminLayout>
   );
 };
 
-export default UserList;
+const mapStateToProps = state => {
+  const { users } = state.userList;
+  return {
+    users
+  };
+};
+
+const mapDispatchToProps = dispatch => {
+  return {
+    fetchUsers: () => dispatch(fetchAllUsers())
+  };
+};
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(UserList);
