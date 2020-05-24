@@ -1,10 +1,9 @@
-import { FETCH_USERS, FETCH_USERS_LOADING, FETCH_USERS_ROLE } from "@actions/types";
+import { FETCH_USERS, FETCH_USERS_LOADING } from "@actions/types";
 
 const initialState = {
   users: [],
   pageInfo: {},
-  loading: false,
-  role: ""
+  loading: false
 };
 
 export const userList = (state = initialState, action) => {
@@ -20,11 +19,6 @@ export const userList = (state = initialState, action) => {
       return {
         ...state,
         loading: true
-      };
-    case FETCH_USERS_ROLE:
-      return {
-        ...state,
-        role: action.payload
       };
     default:
       return state;

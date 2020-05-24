@@ -8,4 +8,3 @@ export const CLOSE_SIDEBAR = "CLOSE_SIDEBAR";
 // user list
 export const FETCH_USERS = "FETCH_USERS";
 export const FETCH_USERS_LOADING = "FETCH_USERS_LOADING";
-export const FETCH_USERS_ROLE = "FETCH_USERS_ROLE";
