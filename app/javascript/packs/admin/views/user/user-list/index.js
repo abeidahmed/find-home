@@ -22,8 +22,6 @@ const UserList = ({ fetchUsers, loading, postRole, role, users }) => {
     fetchAllUsers();
   }, [fetchUsers, role]);
 
-  console.log(users);
-
   if (loading) return <Spinner />;
 
   return (
