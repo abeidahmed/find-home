@@ -2,6 +2,7 @@ import React, { useEffect, useState, useRef } from "react";
 import { AdminLayout } from "@components/layout";
 import { connect } from "react-redux";
 import { fetchAllUsers } from "@api/user/user-list";
+import { fetchUsersRole } from "@actions/user-list";
 import Icon from "@components/icon";
 import Pagination from "./components/pagination";
 import { SearchField } from "@components/search";
@@ -9,7 +10,7 @@ import { Spinner } from "@components/spinner";
 import UserTable from "./components/user-table";
 import { useOnOutsideClick } from "@utils/on-outside-click";
 
-const UserList = ({ fetchUsers, loading, users }) => {
+const UserList = ({ fetchUsers, loading, postRole, role, users }) => {
   const [filterActive, setFilterActive] = useState(false);
   const ref = useRef();
   useOnOutsideClick(ref, () => setFilterActive(false));
@@ -19,7 +20,9 @@ const UserList = ({ fetchUsers, loading, users }) => {
       fetchUsers();
     };
     fetchAllUsers();
-  }, [fetchUsers]);
+  }, [fetchUsers, role]);
+
+  console.log(users);
 
   if (loading) return <Spinner />;
 
@@ -50,18 +53,21 @@ const UserList = ({ fetchUsers, loading, users }) => {
             >
               <div className="py-1 rounded-md bg-white shadow-xs">
                 <button
+                  onClick={() => postRole("")}
                   className="block w-full text-left px-4 py-2 text-sm leading-5 text-gray-700 hover:bg-gray-100 focus:outline-none focus:bg-gray-100 transition duration-150 ease-in-out"
                   role="menuitem"
                 >
                   All
                 </button>
                 <button
+                  onClick={() => postRole("admin")}
                   className="block w-full text-left px-4 py-2 text-sm leading-5 text-gray-700 hover:bg-gray-100 focus:outline-none focus:bg-gray-100 transition duration-150 ease-in-out"
                   role="menuitem"
                 >
                   Admin
                 </button>
                 <button
+                  onClick={() => postRole("user")}
                   className="block w-full text-left px-4 py-2 text-sm leading-5 text-gray-700 hover:bg-gray-100 focus:outline-none focus:bg-gray-100 transition duration-150 ease-in-out"
                   role="menuitem"
                 >
@@ -79,16 +85,18 @@ const UserList = ({ fetchUsers, loading, users }) => {
 };
 
 const mapStateToProps = state => {
-  const { loading, users } = state.userList;
+  const { loading, role, users } = state.userList;
   return {
     loading,
+    role,
     users
   };
 };
 
 const mapDispatchToProps = dispatch => {
   return {
-    fetchUsers: () => dispatch(fetchAllUsers())
+    fetchUsers: () => dispatch(fetchAllUsers()),
+    postRole: role => dispatch(fetchUsersRole(role))
   };
 };
 
