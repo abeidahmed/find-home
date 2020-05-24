@@ -3,13 +3,12 @@ import { authToken } from "@/middleware/auth-token";
 import { fetchUsers, fetchUsersLoading } from "@actions/user-list";
 import queryString from "query-string";
 
-export const fetchAllUsers = () => (dispatch, getState) => {
-  const { role } = getState().userList;
+export const fetchAllUsers = param => (dispatch, getState) => {
   const url = queryString.stringifyUrl(
     {
       url: "/api/v1/users",
       query: {
-        user_role: role
+        user_role: param.user_role
       }
     },
     { skipEmptyString: true }

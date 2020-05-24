@@ -2,25 +2,29 @@ import React, { useEffect, useState, useRef } from "react";
 import { AdminLayout } from "@components/layout";
 import { connect } from "react-redux";
 import { fetchAllUsers } from "@api/user/user-list";
-import { fetchUsersRole } from "@actions/user-list";
 import Icon from "@components/icon";
+import { Link } from "react-router-dom";
 import Pagination from "./components/pagination";
+import queryString from "query-string";
 import { SearchField } from "@components/search";
 import { Spinner } from "@components/spinner";
 import UserTable from "./components/user-table";
 import { useOnOutsideClick } from "@utils/on-outside-click";
 
-const UserList = ({ fetchUsers, loading, postRole, role, users }) => {
+const UserList = ({ match, location, fetchUsers, loading, users }) => {
   const [filterActive, setFilterActive] = useState(false);
   const ref = useRef();
   useOnOutsideClick(ref, () => setFilterActive(false));
 
+  let queryParam = queryString.parse(location.search);
+  let userRoleParam = queryParam.user_role;
+
   useEffect(() => {
     const fetchAllUsers = () => {
-      fetchUsers();
+      fetchUsers(queryParam);
     };
     fetchAllUsers();
-  }, [fetchUsers, role]);
+  }, [fetchUsers, userRoleParam]);
 
   if (loading) return <Spinner />;
 
@@ -50,27 +54,27 @@ const UserList = ({ fetchUsers, loading, postRole, role, users }) => {
               role="menu"
             >
               <div className="py-1 rounded-md bg-white shadow-xs">
-                <button
-                  onClick={() => postRole("")}
+                <Link
+                  to={`${match.path}`}
                   className="block w-full text-left px-4 py-2 text-sm leading-5 text-gray-700 hover:bg-gray-100 focus:outline-none focus:bg-gray-100 transition duration-150 ease-in-out"
                   role="menuitem"
                 >
                   All
-                </button>
-                <button
-                  onClick={() => postRole("admin")}
+                </Link>
+                <Link
+                  to={`${match.path}?user_role=admin`}
                   className="block w-full text-left px-4 py-2 text-sm leading-5 text-gray-700 hover:bg-gray-100 focus:outline-none focus:bg-gray-100 transition duration-150 ease-in-out"
                   role="menuitem"
                 >
                   Admin
-                </button>
-                <button
-                  onClick={() => postRole("user")}
+                </Link>
+                <Link
+                  to={`${match.path}?user_role=user`}
                   className="block w-full text-left px-4 py-2 text-sm leading-5 text-gray-700 hover:bg-gray-100 focus:outline-none focus:bg-gray-100 transition duration-150 ease-in-out"
                   role="menuitem"
                 >
                   Users
-                </button>
+                </Link>
               </div>
             </div>
           </span>
@@ -83,18 +87,16 @@ const UserList = ({ fetchUsers, loading, postRole, role, users }) => {
 };
 
 const mapStateToProps = state => {
-  const { loading, role, users } = state.userList;
+  const { loading, users } = state.userList;
   return {
     loading,
-    role,
     users
   };
 };
 
 const mapDispatchToProps = dispatch => {
   return {
-    fetchUsers: () => dispatch(fetchAllUsers()),
-    postRole: role => dispatch(fetchUsersRole(role))
+    fetchUsers: param => dispatch(fetchAllUsers(param))
   };
 };
 
