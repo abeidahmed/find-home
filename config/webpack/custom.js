@@ -8,7 +8,8 @@ module.exports = {
       "@components": path.resolve(__dirname, "..", "..", "app/javascript/packs/components"),
       "@utils": path.resolve(__dirname, "..", "..", "app/javascript/packs/utils"),
       "@actions": path.resolve(__dirname, "..", "..", "app/javascript/packs/actions"),
-      "@admin": path.resolve(__dirname, "..", "..", "app/javascript/packs/admin")
+      "@admin": path.resolve(__dirname, "..", "..", "app/javascript/packs/admin"),
+      "@api": path.resolve(__dirname, "..", "..", "app/javascript/packs/api")
     }
   }
 };
