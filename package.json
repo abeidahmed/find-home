@@ -13,6 +13,7 @@
     "babel-plugin-transform-react-remove-prop-types": "^0.4.24",
     "postcss-cli": "^7.1.1",
     "prop-types": "^15.7.2",
+    "query-string": "^6.12.1",
     "react": "^16.13.1",
     "react-dom": "^16.13.1",
     "react-redux": "^7.2.0",
