@@ -1,4 +1,4 @@
-import { POST_CURRENT_USER } from "@actions";
+import { POST_CURRENT_USER } from "@actions/types";
 
 const initialState = {
   user: [],

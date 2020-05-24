@@ -1,4 +1,4 @@
-import { POST_CURRENT_USER } from "@actions/types";
+import { POST_CURRENT_USER } from "./types";
 
 export const postCurrentUser = (user, token) => {
   return {
