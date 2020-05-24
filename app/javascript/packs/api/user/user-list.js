@@ -9,5 +9,7 @@ export const fetchAllUsers = () => (dispatch, getState) => {
       dispatch(fetchUsersLoading());
       dispatch(fetchUsers(res.data.users, res.data.pageInfo));
     })
-    .catch(err => console.log(err));
+    .catch(err => {
+      throw new Error(err);
+    });
 };

@@ -3,8 +3,7 @@ import { FETCH_USERS, FETCH_USERS_LOADING } from "@actions/types";
 const initialState = {
   users: [],
   pageInfo: {},
-  loading: false,
-  error: []
+  loading: false
 };
 
 export const userList = (state = initialState, action) => {
@@ -13,8 +12,7 @@ export const userList = (state = initialState, action) => {
       return {
         users: action.payload.users,
         pageInfo: action.payload.pageInfo,
-        loading: false,
-        error: []
+        loading: false
       };
     case FETCH_USERS_LOADING:
       return {
