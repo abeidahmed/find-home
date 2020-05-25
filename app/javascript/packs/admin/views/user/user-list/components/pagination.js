@@ -7,9 +7,10 @@ const Pagination = ({
   currentPage,
   hasPreviousPage,
   hasNextPage,
-  itemLimit,
   totalPages,
-  totalItems
+  totalItems,
+  startIndex,
+  endIndex
 }) => {
   const query = useAddQuery();
 
@@ -17,10 +18,6 @@ const Pagination = ({
   for (let i = 1; i <= totalPages; i++) {
     pageNumbers.push(i);
   }
-
-  // Showing 1 to 8 of 10 results
-  const start = currentPage * itemLimit - (itemLimit - 1);
-  const end = Math.min(start + itemLimit - 1, totalItems);
 
   return (
     <div>
@@ -45,8 +42,8 @@ const Pagination = ({
       <div className="hidden sm:flex-1 sm:flex sm:items-center sm:justify-between">
         <div>
           <p className="text-sm leading-5 text-gray-700">
-            Showing <span className="font-medium">{start}</span> to{" "}
-            <span className="font-medium">{end}</span> of{" "}
+            Showing <span className="font-medium">{startIndex}</span> to{" "}
+            <span className="font-medium">{endIndex}</span> of{" "}
             <span className="font-medium">{totalItems}</span> results
           </p>
         </div>
@@ -93,17 +90,19 @@ const mapStateToProps = state => {
     currentPage,
     hasPreviousPage,
     hasNextPage,
-    itemLimit,
     totalPages,
-    totalItems
+    totalItems,
+    startIndex,
+    endIndex
   } = state.userList.pageInfo;
   return {
     currentPage,
     hasPreviousPage,
     hasNextPage,
-    itemLimit,
     totalPages,
-    totalItems
+    totalItems,
+    startIndex,
+    endIndex
   };
 };
 

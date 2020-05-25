@@ -1,4 +1,5 @@
 module ApplicationHelper
+  include Api::V1::PageInfoHelper
   # Find the current user from the token set on header: "Bearer token_key"
   def current_user
     header = request.headers["Authorization"]
