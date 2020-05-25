@@ -3,13 +3,24 @@ import { connect } from "react-redux";
 import Icon from "@components/icon";
 import { useAddQuery } from "@utils/add-query";
 
-const Pagination = ({ currentPage, hasPreviousPage, hasNextPage, totalPages }) => {
+const Pagination = ({
+  currentPage,
+  hasPreviousPage,
+  hasNextPage,
+  itemLimit,
+  totalPages,
+  totalItems
+}) => {
   const query = useAddQuery();
 
   let pageNumbers = [];
   for (let i = 1; i <= totalPages; i++) {
     pageNumbers.push(i);
   }
+
+  // Showing 1 to 8 of 10 results
+  const start = currentPage * itemLimit - (itemLimit - 1);
+  const end = Math.min(start + itemLimit - 1, totalItems);
 
   return (
     <div>
@@ -34,10 +45,9 @@ const Pagination = ({ currentPage, hasPreviousPage, hasNextPage, totalPages }) =
       <div className="hidden sm:flex-1 sm:flex sm:items-center sm:justify-between">
         <div>
           <p className="text-sm leading-5 text-gray-700">
-            Showing <span className="font-medium">1 </span>
-            to <span className="font-medium">10 </span>
-            of <span className="font-medium">97 </span>
-            results
+            Showing <span className="font-medium">{start}</span> to{" "}
+            <span className="font-medium">{end}</span> of{" "}
+            <span className="font-medium">{totalItems}</span> results
           </p>
         </div>
         <div>
@@ -79,12 +89,21 @@ const Pagination = ({ currentPage, hasPreviousPage, hasNextPage, totalPages }) =
 };
 
 const mapStateToProps = state => {
-  const { currentPage, hasPreviousPage, hasNextPage, totalPages } = state.userList.pageInfo;
-  return {
-    totalPages,
+  const {
     currentPage,
     hasPreviousPage,
-    hasNextPage
+    hasNextPage,
+    itemLimit,
+    totalPages,
+    totalItems
+  } = state.userList.pageInfo;
+  return {
+    currentPage,
+    hasPreviousPage,
+    hasNextPage,
+    itemLimit,
+    totalPages,
+    totalItems
   };
 };
 
