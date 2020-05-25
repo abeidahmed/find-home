@@ -6,7 +6,7 @@ export function useAddQuery() {
   const history = useHistory();
 
   const addQuery = useCallback(
-    (key, value) => () => {
+    (key, value) => {
       let pathname = location.pathname;
       let searchParams = new URLSearchParams(location.search);
       searchParams.set(key, value);
