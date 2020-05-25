@@ -1,7 +1,7 @@
 Rails.application.routes.draw do
   namespace :api, defaults: { format: :json } do
     namespace :v1 do
-      resources :users, only: [:index, :create]
+      resources :users, only: [:index, :create, :destroy]
       resources :sessions, only: [:create]
 
       get "/logged_in", to: "sessions#logged_in"
