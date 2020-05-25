@@ -5,6 +5,7 @@ import { useOnOutsideClick } from "@utils/on-outside-click";
 
 const FilterButton = () => {
   const [filterActive, setFilterActive] = useState(false);
+  const [filterName, setFilterName] = useState("All users");
   const ref = useRef();
   useOnOutsideClick(ref, () => setFilterActive(false));
 
@@ -19,7 +20,7 @@ const FilterButton = () => {
         aria-haspopup="true"
         onClick={() => setFilterActive(!filterActive)}
       >
-        Filter users
+        {filterName}
         <Icon icon="chevron-down" className="-mr-1 ml-2 h-5 w-5 text-gray-500" />
       </button>
       <div
@@ -32,7 +33,10 @@ const FilterButton = () => {
         <div className="py-1 rounded-md bg-white shadow-xs">
           <button
             type="button"
-            onClick={() => query("user_role", "")}
+            onClick={() => {
+              query("user_role", "");
+              setFilterName("All users");
+            }}
             className="block w-full text-left px-4 py-2 text-sm leading-5 text-gray-700 hover:bg-gray-100 focus:outline-none focus:bg-gray-100 transition duration-150 ease-in-out"
             role="menuitem"
           >
@@ -40,7 +44,10 @@ const FilterButton = () => {
           </button>
           <button
             type="button"
-            onClick={() => query("user_role", "admin")}
+            onClick={() => {
+              query("user_role", "admin");
+              setFilterName("Admins");
+            }}
             className="block w-full text-left px-4 py-2 text-sm leading-5 text-gray-700 hover:bg-gray-100 focus:outline-none focus:bg-gray-100 transition duration-150 ease-in-out"
             role="menuitem"
           >
@@ -48,7 +55,10 @@ const FilterButton = () => {
           </button>
           <button
             type="button"
-            onClick={() => query("user_role", "user")}
+            onClick={() => {
+              query("user_role", "user");
+              setFilterName("Users");
+            }}
             className="block w-full text-left px-4 py-2 text-sm leading-5 text-gray-700 hover:bg-gray-100 focus:outline-none focus:bg-gray-100 transition duration-150 ease-in-out"
             role="menuitem"
           >
