@@ -1,24 +1,14 @@
 import React, { useRef, useState } from "react";
 import Icon from "@components/icon";
-import { Link, useLocation, useHistory } from "react-router-dom";
+import { useAddQuery } from "@utils/add-query";
 import { useOnOutsideClick } from "@utils/on-outside-click";
 
-const FilterButton = ({ match }) => {
+const FilterButton = () => {
   const [filterActive, setFilterActive] = useState(false);
   const ref = useRef();
   useOnOutsideClick(ref, () => setFilterActive(false));
 
-  const location = useLocation();
-  const history = useHistory();
-  const addQuery = (key, value) => {
-    let pathname = location.pathname;
-    let searchParams = new URLSearchParams(location.search);
-    searchParams.set(key, value);
-    history.push({
-      pathname: pathname,
-      search: searchParams.toString()
-    });
-  };
+  const query = useAddQuery();
 
   return (
     <span ref={ref} className="relative shadow-sm rounded-md">
@@ -42,7 +32,7 @@ const FilterButton = ({ match }) => {
         <div className="py-1 rounded-md bg-white shadow-xs">
           <button
             type="button"
-            onClick={() => addQuery("user_role", "")}
+            onClick={() => query("user_role", "")}
             className="block w-full text-left px-4 py-2 text-sm leading-5 text-gray-700 hover:bg-gray-100 focus:outline-none focus:bg-gray-100 transition duration-150 ease-in-out"
             role="menuitem"
           >
@@ -50,7 +40,7 @@ const FilterButton = ({ match }) => {
           </button>
           <button
             type="button"
-            onClick={() => addQuery("user_role", "admin")}
+            onClick={() => query("user_role", "admin")}
             className="block w-full text-left px-4 py-2 text-sm leading-5 text-gray-700 hover:bg-gray-100 focus:outline-none focus:bg-gray-100 transition duration-150 ease-in-out"
             role="menuitem"
           >
@@ -58,7 +48,7 @@ const FilterButton = ({ match }) => {
           </button>
           <button
             type="button"
-            onClick={() => addQuery("user_role", "user")}
+            onClick={() => query("user_role", "user")}
             className="block w-full text-left px-4 py-2 text-sm leading-5 text-gray-700 hover:bg-gray-100 focus:outline-none focus:bg-gray-100 transition duration-150 ease-in-out"
             role="menuitem"
           >

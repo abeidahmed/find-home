@@ -1,22 +1,12 @@
 import React from "react";
 import { connect } from "react-redux";
 import Icon from "@components/icon";
-import { Link, useHistory, useLocation } from "react-router-dom";
+import { Link } from "react-router-dom";
 import queryString from "query-string";
+import { useAddQuery } from "@utils/add-query";
 
 const Pagination = ({ currentPage, match, hasPreviousPage, hasNextPage, totalPages }) => {
-  const location = useLocation();
-  const history = useHistory();
-
-  const addQuery = (key, value) => {
-    let pathname = location.pathname;
-    let searchParams = new URLSearchParams(location.search);
-    searchParams.set(key, value);
-    history.push({
-      pathname: pathname,
-      search: searchParams.toString()
-    });
-  };
+  const query = useAddQuery();
 
   let pageNumbers = [];
   for (let i = 1; i <= totalPages; i++) {
@@ -28,7 +18,7 @@ const Pagination = ({ currentPage, match, hasPreviousPage, hasNextPage, totalPag
       <div className="flex-1 flex justify-between sm:hidden">
         <button
           type="button"
-          onClick={() => addQuery("page", currentPage - 1)}
+          onClick={() => query("page", currentPage - 1)}
           disabled={!hasPreviousPage}
           className="relative inline-flex items-center px-4 py-2 border border-gray-300 text-sm leading-5 font-medium rounded-md text-gray-700 bg-white hover:text-gray-500 focus:outline-none focus:shadow-outline-blue focus:border-blue-300 active:bg-gray-100 active:text-gray-700 transition ease-in-out duration-150"
         >
@@ -36,7 +26,7 @@ const Pagination = ({ currentPage, match, hasPreviousPage, hasNextPage, totalPag
         </button>
         <button
           type="button"
-          onClick={() => addQuery("page", currentPage + 1)}
+          onClick={() => query("page", currentPage + 1)}
           disabled={!hasNextPage}
           className="ml-3 relative inline-flex items-center px-4 py-2 border border-gray-300 text-sm leading-5 font-medium rounded-md text-gray-700 bg-white hover:text-gray-500 focus:outline-none focus:shadow-outline-blue focus:border-blue-300 active:bg-gray-100 active:text-gray-700 transition ease-in-out duration-150"
         >
@@ -57,7 +47,7 @@ const Pagination = ({ currentPage, match, hasPreviousPage, hasNextPage, totalPag
             <button
               type="button"
               disabled={!hasPreviousPage}
-              onClick={() => addQuery("page", currentPage - 1)}
+              onClick={() => query("page", currentPage - 1)}
               className="relative inline-flex items-center px-2 py-2 rounded-l-md border border-gray-300 bg-white text-sm leading-5 font-medium text-gray-500 hover:text-gray-400 focus:z-10 focus:outline-none focus:border-blue-300 focus:shadow-outline-blue active:bg-gray-100 active:text-gray-500 transition ease-in-out duration-150"
               aria-label="Previous"
             >
@@ -67,9 +57,9 @@ const Pagination = ({ currentPage, match, hasPreviousPage, hasNextPage, totalPag
               <button
                 key={pageNumber}
                 type="button"
-                onClick={() => addQuery("page", pageNumber)}
+                onClick={() => query("page", pageNumber)}
                 className={`${currentPage === pageNumber &&
-                  "text-indigo-600"} -ml-px relative inline-flex items-center px-4 py-2 border border-gray-300 bg-white text-sm leading-5 font-medium text-gray-700 hover:text-gray-500 focus:z-10 focus:outline-none focus:border-blue-300 focus:shadow-outline-blue active:bg-gray-100 active:text-gray-700 transition ease-in-out duration-150`}
+                  "text-indigo-900 bg-indigo-100"} -ml-px relative inline-flex items-center px-4 py-2 border border-gray-300 bg-white text-sm leading-5 font-medium text-gray-700 hover:text-gray-500 focus:z-10 focus:outline-none focus:border-blue-300 focus:shadow-outline-blue active:bg-gray-100 active:text-gray-700 transition ease-in-out duration-150`}
               >
                 {pageNumber}
               </button>
@@ -77,7 +67,7 @@ const Pagination = ({ currentPage, match, hasPreviousPage, hasNextPage, totalPag
             <button
               type="button"
               disabled={!hasNextPage}
-              onClick={() => addQuery("page", currentPage + 1)}
+              onClick={() => query("page", currentPage + 1)}
               className="-ml-px relative inline-flex items-center px-2 py-2 rounded-r-md border border-gray-300 bg-white text-sm leading-5 font-medium text-gray-500 hover:text-gray-400 focus:z-10 focus:outline-none focus:border-blue-300 focus:shadow-outline-blue active:bg-gray-100 active:text-gray-500 transition ease-in-out duration-150"
               aria-label="Next"
             >
