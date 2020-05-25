@@ -24,7 +24,11 @@ const DesktopLinks = ({ currentUser }) => {
 
       {currentUser ? (
         <div ref={ref} className="relative">
-          <AvatarWithButton toggleDropdown={setProfileActive} dropdownState={profileActive} />
+          <AvatarWithButton
+            userInfo={currentUser}
+            toggleDropdown={setProfileActive}
+            dropdownState={profileActive}
+          />
 
           <div
             className={`${

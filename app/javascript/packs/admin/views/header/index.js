@@ -6,7 +6,7 @@ import { openSidebar } from "@actions/sidebar";
 import ProfileLink from "./components/profile-link";
 import { useOnOutsideClick } from "@utils/on-outside-click";
 
-const Header = ({ openSidebar }) => {
+const Header = ({ currentUser, openSidebar }) => {
   const [profileActive, setProfileActive] = useState(false);
   const ref = useRef();
   useOnOutsideClick(ref, () => setProfileActive(false));
@@ -20,11 +20,21 @@ const Header = ({ openSidebar }) => {
         <Icon icon="menu" className="h-6 w-6" />
       </button>
       <div ref={ref} className="relative ml-auto">
-        <AvatarWithButton toggleDropdown={setProfileActive} dropdownState={profileActive} />
+        <AvatarWithButton
+          userInfo={currentUser}
+          toggleDropdown={setProfileActive}
+          dropdownState={profileActive}
+        />
         <ProfileLink profileActive={profileActive} setProfileActive={setProfileActive} />
       </div>
     </header>
   );
+};
+
+const mapStateToProps = state => {
+  return {
+    currentUser: state.currentUser.user
+  };
 };
 
 const mapDispatchToProps = dispatch => {
@@ -34,6 +44,6 @@ const mapDispatchToProps = dispatch => {
 };
 
 export default connect(
-  null,
+  mapStateToProps,
   mapDispatchToProps
 )(Header);
