@@ -2,10 +2,11 @@ import React, { useState } from "react";
 import axios from "axios";
 import { connect } from "react-redux";
 import Icon from "@components/icon";
-import { Link } from "react-router-dom";
+import { Link, useHistory } from "react-router-dom";
 import { postCurrentUser } from "@actions/current-user";
 
 const Form = ({ postUser }) => {
+  const history = useHistory();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [isLoading, setIsLoading] = useState(false);
@@ -27,6 +28,7 @@ const Form = ({ postUser }) => {
         if (res.status === 200) {
           postUser(res.data.user, res.data.token);
           setIsLoading(false);
+          history.push("/");
         }
       })
       .catch(err => {
