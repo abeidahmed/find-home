@@ -32,7 +32,7 @@ const FilterButton = () => {
         <div className="py-1 rounded-md bg-white shadow-xs">
           <button
             type="button"
-            onClick={() => query("user_role", "")}
+            onClick={query("user_role", "")}
             className="block w-full text-left px-4 py-2 text-sm leading-5 text-gray-700 hover:bg-gray-100 focus:outline-none focus:bg-gray-100 transition duration-150 ease-in-out"
             role="menuitem"
           >
@@ -40,7 +40,7 @@ const FilterButton = () => {
           </button>
           <button
             type="button"
-            onClick={() => query("user_role", "admin")}
+            onClick={query("user_role", "admin")}
             className="block w-full text-left px-4 py-2 text-sm leading-5 text-gray-700 hover:bg-gray-100 focus:outline-none focus:bg-gray-100 transition duration-150 ease-in-out"
             role="menuitem"
           >
@@ -48,7 +48,7 @@ const FilterButton = () => {
           </button>
           <button
             type="button"
-            onClick={() => query("user_role", "user")}
+            onClick={query("user_role", "user")}
             className="block w-full text-left px-4 py-2 text-sm leading-5 text-gray-700 hover:bg-gray-100 focus:outline-none focus:bg-gray-100 transition duration-150 ease-in-out"
             role="menuitem"
           >

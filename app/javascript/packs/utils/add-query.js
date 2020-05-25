@@ -1,12 +1,12 @@
 import { useCallback } from "react";
 import { useLocation, useHistory } from "react-router-dom";
 
-export const useAddQuery = () => {
+export function useAddQuery() {
   const location = useLocation();
   const history = useHistory();
 
   const addQuery = useCallback(
-    (key, value) => {
+    (key, value) => () => {
       let pathname = location.pathname;
       let searchParams = new URLSearchParams(location.search);
       searchParams.set(key, value);
@@ -19,4 +19,4 @@ export const useAddQuery = () => {
   );
 
   return addQuery;
-};
+}
