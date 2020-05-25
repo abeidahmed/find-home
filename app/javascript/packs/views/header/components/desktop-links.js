@@ -1,7 +1,7 @@
 import React, { useState, useRef } from "react";
 import { AvatarWithButton } from "@components/avatar";
 import { connect } from "react-redux";
-import { Link, useHistory } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { links, profileLinks } from "./links";
 import { useOnOutsideClick } from "@utils/on-outside-click";
 
