@@ -1,9 +1,13 @@
 import React, { useState } from "react";
 import axios from "axios";
+import { connect } from "react-redux";
 import Icon from "@components/icon";
 import { InputField } from "@components/field";
+import { postCurrentUser } from "@actions/current-user";
+import { useHistory } from "react-router-dom";
 
-const Form = () => {
+const Form = ({ postUser }) => {
+  const history = useHistory();
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
   const [email, setEmail] = useState("");
@@ -27,8 +31,9 @@ const Form = () => {
       )
       .then(res => {
         if (res.status === 201) {
-          console.log(res);
+          postUser(res.data.user, res.data.token);
           setIsLoading(false);
+          history.push("/");
         }
       })
       .catch(err => {
@@ -107,4 +112,13 @@ const Form = () => {
   );
 };
 
-export default Form;
+const mapDispatchToProps = dispatch => {
+  return {
+    postUser: (userData, token) => dispatch(postCurrentUser(userData, token))
+  };
+};
+
+export default connect(
+  null,
+  mapDispatchToProps
+)(Form);
