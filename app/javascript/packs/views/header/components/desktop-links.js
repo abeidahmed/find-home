@@ -1,14 +1,21 @@
 import React, { useState, useRef } from "react";
 import { AvatarWithButton } from "@components/avatar";
 import { connect } from "react-redux";
-import { Link } from "react-router-dom";
+import { Link, useHistory } from "react-router-dom";
 import { links, profileLinks } from "./links";
+import { logoutUser } from "@actions/current-user";
 import { useOnOutsideClick } from "@utils/on-outside-click";
 
-const DesktopLinks = ({ currentUser }) => {
+const DesktopLinks = ({ logoutUser, currentUser }) => {
   const [profileActive, setProfileActive] = useState(false);
   const ref = useRef();
   useOnOutsideClick(ref, () => setProfileActive(false));
+
+  const history = useHistory();
+  const handleLogout = () => {
+    logoutUser();
+    history.push("/");
+  };
 
   return (
     <nav className="flex items-center space-x-8">
@@ -50,7 +57,10 @@ const DesktopLinks = ({ currentUser }) => {
                   {profileLink.title}
                 </Link>
               ))}
-              <button className="block w-full text-left px-4 py-2 text-sm leading-5 text-gray-700 hover:bg-gray-100 focus:outline-none focus:bg-gray-100 transition duration-150 ease-in-out">
+              <button
+                onClick={handleLogout}
+                className="block w-full text-left px-4 py-2 text-sm leading-5 text-gray-700 hover:bg-gray-100 focus:outline-none focus:bg-gray-100 transition duration-150 ease-in-out"
+              >
                 Sign out
               </button>
             </div>
@@ -83,7 +93,13 @@ const mapStateToProps = state => {
   };
 };
 
+const mapDispatchToProps = dispatch => {
+  return {
+    logoutUser: () => dispatch(logoutUser())
+  };
+};
+
 export default connect(
   mapStateToProps,
-  null
+  mapDispatchToProps
 )(DesktopLinks);

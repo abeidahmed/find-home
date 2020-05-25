@@ -1,7 +1,9 @@
 import React from "react";
+import { connect } from "react-redux";
 import { Link, useHistory } from "react-router-dom";
+import { logoutUser } from "@actions/current-user";
 
-const ProfileLinks = ({ profileActive, setProfileActive }) => {
+const ProfileLinks = ({ logoutUser, profileActive, setProfileActive }) => {
   const links = [
     {
       title: "Profile",
@@ -15,7 +17,7 @@ const ProfileLinks = ({ profileActive, setProfileActive }) => {
 
   const history = useHistory();
   const handleLogout = () => {
-    localStorage.removeItem("token");
+    logoutUser();
     history.push("/");
   };
 
@@ -51,4 +53,13 @@ const ProfileLinks = ({ profileActive, setProfileActive }) => {
   );
 };
 
-export default ProfileLinks;
+const mapDispatchToProps = dispatch => {
+  return {
+    logoutUser: () => dispatch(logoutUser())
+  };
+};
+
+export default connect(
+  null,
+  mapDispatchToProps
+)(ProfileLinks);

@@ -1,4 +1,4 @@
-import { POST_CURRENT_USER } from "./types";
+import { LOGOUT_USER, POST_CURRENT_USER } from "./types";
 
 export const postCurrentUser = (user, token) => {
   return {
@@ -7,5 +7,11 @@ export const postCurrentUser = (user, token) => {
       user,
       token
     }
+  };
+};
+
+export const logoutUser = () => {
+  return {
+    type: LOGOUT_USER
   };
 };

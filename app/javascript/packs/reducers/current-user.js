@@ -1,4 +1,4 @@
-import { POST_CURRENT_USER } from "@actions/types";
+import { LOGOUT_USER, POST_CURRENT_USER } from "@actions/types";
 
 const initialState = {
   user: {},
@@ -12,6 +12,12 @@ export const currentUser = (state = initialState, action) => {
       return {
         user: action.payload.user,
         token: action.payload.token
+      };
+    case LOGOUT_USER:
+      localStorage.removeItem("token");
+      return {
+        user: {},
+        token: null
       };
     default:
       return state;
