@@ -10,7 +10,7 @@ export const SearchField = ({ size, ...props }) => {
         } block w-full form-input pl-9 pr-3 text-sm border-gray-300`}
         {...props}
       />
-      <div className="absolute inset-y-0 flex items-center left-0 pl-3">
+      <div className="pointer-events-none absolute inset-y-0 flex items-center left-0 pl-3">
         <Icon icon="search" className="h-4 w-4 text-gray-500" />
       </div>
     </div>
