@@ -22,7 +22,7 @@ const DesktopLinks = ({ currentUser }) => {
         </Link>
       ))}
 
-      {currentUser ? (
+      {Object.keys(currentUser).length > 0 ? (
         <div ref={ref} className="relative">
           <AvatarWithButton
             userInfo={currentUser}
