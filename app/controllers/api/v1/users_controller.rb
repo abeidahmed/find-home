@@ -1,10 +1,8 @@
 class Api::V1::UsersController < ApplicationController
+  before_action :check_authorization, except: [:create]
+
   def index
-    if current_user.admin?
-      @users = User.search(params[:search]).user_role(params[:user_role]).paginate(page: params[:page])
-    else
-      render json: { message: "You are not authorized to view this page" }, status: :unauthorized
-    end
+    @users = User.search(params[:search]).user_role(params[:user_role]).paginate(page: params[:page])
   end
 
   def create
@@ -17,9 +15,20 @@ class Api::V1::UsersController < ApplicationController
     end
   end
 
+  def destroy
+    user = User.find(params[:id])
+    user.destroy
+    render json: { message: "Successfully deleted" }, status: :ok
+  end
+
   private
 
   def user_params
     params.require(:user).permit(:first_name, :last_name, :email, :password)
+  end
+
+  def check_authorization
+    render json: { message: "You are not authorized to perform this action" }, 
+    status: :unauthorized unless current_user.admin? 
   end
 end
