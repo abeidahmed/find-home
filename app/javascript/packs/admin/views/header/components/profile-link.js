@@ -1,5 +1,5 @@
 import React from "react";
-import { Link } from "react-router-dom";
+import { Link, useHistory } from "react-router-dom";
 
 const ProfileLinks = ({ profileActive, setProfileActive }) => {
   const links = [
@@ -12,6 +12,12 @@ const ProfileLinks = ({ profileActive, setProfileActive }) => {
       path: "/"
     }
   ];
+
+  const history = useHistory();
+  const handleLogout = () => {
+    localStorage.removeItem("token");
+    history.push("/");
+  };
 
   return (
     <div
@@ -34,7 +40,10 @@ const ProfileLinks = ({ profileActive, setProfileActive }) => {
             {link.title}
           </Link>
         ))}
-        <button className="block w-full text-left px-4 py-2 text-sm leading-5 text-gray-700 hover:bg-gray-100 focus:outline-none focus:bg-gray-100 transition duration-150 ease-in-out">
+        <button
+          onClick={handleLogout}
+          className="block w-full text-left px-4 py-2 text-sm leading-5 text-gray-700 hover:bg-gray-100 focus:outline-none focus:bg-gray-100 transition duration-150 ease-in-out"
+        >
           Sign out
         </button>
       </div>
