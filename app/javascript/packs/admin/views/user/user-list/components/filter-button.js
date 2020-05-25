@@ -26,7 +26,7 @@ const FilterButton = () => {
       <div
         className={`${
           filterActive ? "block" : "hidden"
-        } origin-top-right absolute right-0 mt-2 -mr-1 w-32 rounded-md shadow-lg`}
+        } z-20 origin-top-right absolute right-0 mt-2 -mr-1 w-32 rounded-md shadow-lg`}
         aria-labelledby="menu"
         role="menu"
       >
