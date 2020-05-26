@@ -6,6 +6,7 @@ import { store } from "@/store";
 import { fetchCurrentUser } from "@/api/user/current-user";
 import AdminRoute from "@admin/routes/admin-route";
 import PublicRoute from "@/routes/public-route";
+import ModalRoot from "@components/modal/modal-root";
 
 const App = () => {
   useEffect(() => {
@@ -17,6 +18,7 @@ const App = () => {
   return (
     <Provider store={store}>
       <Router>
+        <ModalRoot />
         <Switch>
           <Route path="/admin" component={AdminRoute} />
           <Route path="/" component={PublicRoute} />
