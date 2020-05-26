@@ -1,6 +1,12 @@
 import React from "react";
+import { connect } from "react-redux";
+import { openModal } from "@actions/modal";
 
-const UserTable = ({ users }) => {
+const UserTable = ({ openModal, users }) => {
+  const handleDelete = (type, modalProps) => {
+    openModal(type, modalProps);
+  };
+
   return (
     <div className="my-8 shadow overflow-hidden sm:rounded-lg">
       <div className="align-middle inline-block w-full overflow-x-auto border-b border-gray-200">
@@ -24,8 +30,8 @@ const UserTable = ({ users }) => {
           </thead>
           <tbody className="bg-white">
             {users.map(user => (
-              <tr key={user.id}>
-                <td className="px-6 py-4 whitespace-no-wrap border-b border-gray-200">
+              <tr key={user.id} className="border-b border-gray-200">
+                <td className="px-6 py-4 whitespace-no-wrap">
                   <div className="flex items-center">
                     <div className="flex-shrink-0 h-10 w-10">
                       <img
@@ -41,19 +47,32 @@ const UserTable = ({ users }) => {
                     </div>
                   </div>
                 </td>
-                <td className="px-6 py-4 whitespace-no-wrap border-b border-gray-200 text-sm leading-5 text-gray-900">
+                <td className="px-6 py-4 whitespace-no-wrap text-sm leading-5 text-gray-900">
                   {user.email}
                 </td>
-                <td className="px-6 py-4 whitespace-no-wrap border-b border-gray-200 text-sm leading-5 text-gray-900">
+                <td className="px-6 py-4 whitespace-no-wrap text-sm leading-5 text-gray-900">
                   {user.admin ? "Admin" : "User"}
                 </td>
-                <td className="px-6 py-4 whitespace-no-wrap border-b border-gray-200 text-sm leading-5 text-gray-900">
+                <td className="px-6 py-4 whitespace-no-wrap text-sm leading-5 text-gray-900">
                   {user.createdAt}
                 </td>
-                <td className="px-6 py-4 whitespace-no-wrap text-right border-b border-gray-200 text-sm leading-5 font-medium">
+                <td className="space-x-2 px-6 py-4 whitespace-no-wrap text-right text-sm leading-5 font-medium">
                   <a href="/" className="text-indigo-600 hover:text-indigo-900">
                     Edit
                   </a>
+                  <button
+                    onClick={() =>
+                      handleDelete("DELETE_USER", {
+                        id: user.id,
+                        title: `Delete ${user.fullName}`,
+                        content:
+                          "Are you sure you want to delete this user? Once you click on delete, there's no going back."
+                      })
+                    }
+                    className="font-medium text-red-600 hover:text-red-900"
+                  >
+                    Delete
+                  </button>
                 </td>
               </tr>
             ))}
@@ -64,4 +83,13 @@ const UserTable = ({ users }) => {
   );
 };
 
-export default UserTable;
+const mapDispatchToProps = dispatch => {
+  return {
+    openModal: (modalType, modalProps) => dispatch(openModal(modalType, modalProps))
+  };
+};
+
+export default connect(
+  null,
+  mapDispatchToProps
+)(UserTable);
