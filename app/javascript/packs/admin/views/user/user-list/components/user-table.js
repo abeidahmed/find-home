@@ -57,9 +57,6 @@ const UserTable = ({ openModal, users }) => {
                   {user.createdAt}
                 </td>
                 <td className="space-x-2 px-6 py-4 whitespace-no-wrap text-right text-sm leading-5 font-medium">
-                  <a href="/" className="text-indigo-600 hover:text-indigo-900">
-                    Edit
-                  </a>
                   <button
                     onClick={() =>
                       handleDelete("DELETE_USER", {
@@ -69,10 +66,14 @@ const UserTable = ({ openModal, users }) => {
                           "Are you sure you want to delete this user? Once you click on delete, there's no going back."
                       })
                     }
-                    className="font-medium text-red-600 hover:text-red-900"
+                    className={`${user.admin &&
+                      "hidden"} font-medium text-red-600 hover:text-red-900`}
                   >
                     Delete
                   </button>
+                  <a href="/" className="text-indigo-600 hover:text-indigo-900">
+                    Edit
+                  </a>
                 </td>
               </tr>
             ))}
