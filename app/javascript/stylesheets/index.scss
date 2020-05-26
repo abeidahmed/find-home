@@ -19,4 +19,11 @@
   animation: spin 1s linear infinite;
 }
 
+button:disabled,
+button[disabled] {
+  opacity: 0.8;
+  cursor: default;
+  pointer-events: none;
+}
+
 @import "tailwindcss/utilities";
