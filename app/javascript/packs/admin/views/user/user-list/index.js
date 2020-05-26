@@ -9,7 +9,7 @@ import { SearchField } from "@components/search";
 import UserTable from "./components/user-table";
 import { useAddQuery } from "@utils/add-query";
 
-const UserList = ({ match, location, fetchUsers, users }) => {
+const UserList = ({ match, location, fetchUsers, modalType, users }) => {
   const [searchValue, setSearchValue] = useState("");
   const query = useAddQuery();
 
@@ -23,7 +23,7 @@ const UserList = ({ match, location, fetchUsers, users }) => {
       fetchUsers(queryParam);
     };
     fetchAllUsers();
-  }, [fetchUsers, userRoleParam, pageNumber, searchTerm]);
+  }, [fetchUsers, userRoleParam, pageNumber, searchTerm, modalType]);
 
   return (
     <AdminLayout>
@@ -51,7 +51,8 @@ const UserList = ({ match, location, fetchUsers, users }) => {
 const mapStateToProps = state => {
   const { users } = state.userList;
   return {
-    users
+    users,
+    modalType: state.modal.modalType
   };
 };
 
