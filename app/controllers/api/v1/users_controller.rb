@@ -17,8 +17,12 @@ class Api::V1::UsersController < ApplicationController
 
   def destroy
     user = User.find(params[:id])
-    user.destroy
-    render json: { message: "Successfully deleted" }, status: :ok
+    if user.admin? || user.id == current_user.id
+      render json: { message: "You cannot perform this action" }, status: :forbidden
+    else
+      user.destroy
+      render json: { message: "Successfully deleted" }, status: :ok
+    end
   end
 
   private
