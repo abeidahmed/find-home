@@ -1,4 +1,6 @@
 class Api::V1::TagsController < ApplicationController
+  before_action :check_authorization, except: [:index, :show]
+
   def index
     @tags = Tag.paginate(page: params[:page])
   end
