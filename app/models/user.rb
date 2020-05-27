@@ -51,35 +51,4 @@ class User < ApplicationRecord
       self.all
     end
   end
-
-  # def self.search_query(search)
-  #   self.where(
-  #     "lower(first_name) LIKE :search OR lower(last_name) LIKE :search OR lower(email) LIKE :search", 
-  #     search: "%#{search.downcase}%"
-  #   )
-  # end
-
-  # def self.is_admin
-  #   self.where(admin: true)
-  # end
-
-  # def self.is_not_admin
-  #   self.where(admin: false)
-  # end
-
-  # def self.search(search, user_role)
-  #   if search && user_role.blank?
-  #     self.search_query(search)
-  #   elsif search.blank? && user_role == "admin"
-  #     self.is_admin
-  #   elsif search.blank? && user_role == "user"
-  #     self.is_not_admin
-  #   elsif search && user_role == "admin"
-  #     self.search_query(search).is_admin
-  #   elsif search && user_role == "user"
-  #     self.search_query(search).is_not_admin
-  #   else
-  #     self.all
-  #   end
-  # end
 end
