@@ -11,7 +11,7 @@ module ApplicationHelper
     end
   end
 
-  # Sets the date format to: 23rd May, 2020
+  # Sets the date format. Eg: 23rd May, 2020
   def format_date(current_date)
     current_date.strftime("#{current_date.day.ordinalize} %b, %Y")
   end
