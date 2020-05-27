@@ -4,7 +4,7 @@ json.user do
   
   json.user_posts do
     json.page_info do
-      json.partial! "api/v1/page_infos/page_info.json.jbuilder", page_props: @user_posts
+      json.partial! "api/v1/page_infos/page_info", page_props: @user_posts
     end
 
     json.posts @user_posts do |post|

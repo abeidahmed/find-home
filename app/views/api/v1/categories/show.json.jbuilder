@@ -4,7 +4,7 @@ json.category do
   
   json.category_posts do
     json.page_info do
-      json.partial! "api/v1/page_infos/page_info.json.jbuilder", page_props: @category_posts
+      json.partial! "api/v1/page_infos/page_info", page_props: @category_posts
     end
 
     json.posts @category_posts do |post|

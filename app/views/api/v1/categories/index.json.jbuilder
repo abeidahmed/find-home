@@ -1,5 +1,5 @@
 json.page_info do
-  json.partial! "api/v1/page_infos/page_info.json.jbuilder", page_props: @categories
+  json.partial! "api/v1/page_infos/page_info", page_props: @categories
 end
 
 json.categories @categories do |category|
