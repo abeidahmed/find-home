@@ -1,6 +1,6 @@
 json.category do
   json.partial! "api/v1/categories/category", category: @category
-  json.post_count @category.posts.count
+  json.post_count @category_posts.count
   
   json.category_posts do
     json.page_info do
