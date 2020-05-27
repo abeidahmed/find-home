@@ -14,4 +14,8 @@ class ApplicationController < ActionController::Base
     render json: { message: "You are not authorized to perform this action" }, 
                   status: :unauthorized if !current_user.nil? && !current_user.admin?
   end
+
+  def check_authentication
+    render json: { message: "Please signup or login to continue" }, status: :unauthorized if current_user.nil?
+  end
 end
