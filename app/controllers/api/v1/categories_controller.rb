@@ -1,5 +1,5 @@
 class Api::V1::CategoriesController < ApplicationController
-  before_action :check_authorization, only: [:index, :create]
+  before_action :check_authorization
 
   def index
     @categories = Category.search(params[:search]).paginate(page: params[:page])
@@ -12,6 +12,12 @@ class Api::V1::CategoriesController < ApplicationController
     else
       render json: @category.errors.full_messages, status: :bad_request
     end
+  end
+
+  def destroy
+    category = Category.find(params[:id])
+    category.destroy
+    render json: { message: "Successfully deleted category: #{category.title}" }
   end
 
   private
