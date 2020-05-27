@@ -1,5 +1,5 @@
 class Category < ApplicationRecord
-  has_many :posts
+  has_many :posts, dependent: :destroy
   
   validates :title, presence: true, length: { maximum: 255 }, uniqueness: { case_sensitive: false }
   validates :description, length: { maximum: 500 }
