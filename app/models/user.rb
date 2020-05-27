@@ -1,5 +1,6 @@
 class User < ApplicationRecord
   has_secure_password
+  has_many :posts
   
   before_save do
     self.first_name = first_name.capitalize
