@@ -4,5 +4,6 @@ json.content post.content
 json.excerpt post.excerpt
 json.category_id post.category_id
 json.category post.category.title
+json.tags post.tags
 json.created_at format_date(post.created_at)
 json.updated_at format_date(post.updated_at)
