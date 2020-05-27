@@ -1,6 +1,6 @@
 class Api::V1::PostsController < ApplicationController
   def index
-    @posts = Post.paginate(page: params[:page])
+    @posts = Post.search(params[:search]).paginate(page: params[:page])
   end
 
   def create
