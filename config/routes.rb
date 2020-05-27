@@ -5,6 +5,7 @@ Rails.application.routes.draw do
       resources :sessions, only: [:create]
       resources :categories, only: [:index, :create, :show, :update, :destroy]
       resources :posts, only: [:index, :create, :show, :update, :destroy]
+      resources :tags, only: [:index, :create, :show, :update, :destroy]
 
       get "/logged_in", to: "sessions#logged_in"
     end
