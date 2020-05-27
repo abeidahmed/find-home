@@ -15,6 +15,12 @@ class Api::V1::UsersController < ApplicationController
     end
   end
 
+  def show
+    @user = User.find(params[:id])
+    @user_posts = @user.posts.paginate(page: params[:page], per_page: params[:per_page])
+    render :show
+  end
+
   def destroy
     user = User.find(params[:id])
     if user.admin? || user.id == current_user.id
