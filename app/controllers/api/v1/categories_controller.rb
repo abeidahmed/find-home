@@ -1,6 +1,10 @@
 class Api::V1::CategoriesController < ApplicationController
-  before_action :check_authorization, only: [:create]
-  
+  before_action :check_authorization, only: [:index, :create]
+
+  def index
+    @categories = Category.paginate(page: params[:page])
+  end
+
   def create
     @category = Category.create(category_params)
     if @category.save
