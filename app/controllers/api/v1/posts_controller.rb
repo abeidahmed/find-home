@@ -17,6 +17,15 @@ class Api::V1::PostsController < ApplicationController
     render :show
   end
 
+  def update
+    @post = Post.find(params[:id])
+    if @post.update_attributes(post_params)
+      render :edit
+    else
+      render json: @post.errors.full_messages, status: :bad_request
+    end
+  end
+
   def destroy
     post = Post.find(params[:id])
     post.destroy
