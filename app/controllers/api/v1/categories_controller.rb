@@ -1,5 +1,5 @@
 class Api::V1::CategoriesController < ApplicationController
-  before_action :check_authorization
+  before_action :check_authorization, expect: [:show]
 
   def index
     @categories = Category.search(params[:search]).paginate(page: params[:page])
@@ -12,6 +12,11 @@ class Api::V1::CategoriesController < ApplicationController
     else
       render json: @category.errors.full_messages, status: :bad_request
     end
+  end
+
+  def show
+    @category = Category.find(params[:id])
+    render :show
   end
 
   def update
