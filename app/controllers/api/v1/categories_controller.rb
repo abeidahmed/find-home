@@ -16,7 +16,7 @@ class Api::V1::CategoriesController < ApplicationController
 
   def show
     @category = Category.find(params[:id])
-    @category_posts = @category.posts.paginate(page: params[:page], per_page: params[:per_page])
+    @category_posts = @category.posts.search(params[:search]).paginate(page: params[:page], per_page: params[:per_page])
     render :show
   end
 
