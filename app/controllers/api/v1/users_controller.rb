@@ -30,9 +30,4 @@ class Api::V1::UsersController < ApplicationController
   def user_params
     params.require(:user).permit(:first_name, :last_name, :email, :password)
   end
-
-  def check_authorization
-    render json: { message: "You are not authorized to perform this action" }, 
-    status: :unauthorized unless current_user.admin? 
-  end
 end

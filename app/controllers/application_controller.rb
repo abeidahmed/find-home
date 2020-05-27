@@ -9,4 +9,9 @@ class ApplicationController < ActionController::Base
     token = JWT.encode data_to_encode, secret_key, "HS256"
     @hash = token
   end
+
+  def check_authorization
+    render json: { message: "You are not authorized to perform this action" }, 
+    status: :unauthorized unless current_user.admin? 
+  end
 end
