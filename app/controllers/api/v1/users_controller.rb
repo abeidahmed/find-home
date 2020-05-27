@@ -27,7 +27,7 @@ class Api::V1::UsersController < ApplicationController
       render json: { message: "You cannot perform this action" }, status: :forbidden
     else
       user.destroy
-      render json: { message: "Successfully deleted" }, status: :ok
+      render json: { message: "Successfully deleted user: #{user.first_name}" }, status: :ok
     end
   end
 
