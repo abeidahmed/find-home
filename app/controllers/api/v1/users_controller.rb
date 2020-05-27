@@ -17,7 +17,9 @@ class Api::V1::UsersController < ApplicationController
 
   def destroy
     user = User.find(params[:id])
-    if user.admin? || user.id == current_user.id
+    if user.nil?
+      render json: { message: "User is not present" }, status: :bad_request
+    elsif user.admin? || user.id == current_user.id
       render json: { message: "You cannot perform this action" }, status: :forbidden
     else
       user.destroy
