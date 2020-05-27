@@ -4,7 +4,7 @@ Rails.application.routes.draw do
       resources :users, only: [:index, :create, :destroy]
       resources :sessions, only: [:create]
       resources :categories, only: [:index, :create, :show, :update, :destroy]
-      resources :posts, only: [:index, :create, :destroy]
+      resources :posts, only: [:index, :create, :show, :destroy]
 
       get "/logged_in", to: "sessions#logged_in"
     end
