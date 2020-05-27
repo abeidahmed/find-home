@@ -14,6 +14,15 @@ class Api::V1::CategoriesController < ApplicationController
     end
   end
 
+  def update
+    @category = Category.find(params[:id])
+    if @category.update_attributes(category_params)
+      render :edit
+    else
+      render json: @category.errors.full_messages, status: :bad_request
+    end
+  end
+
   def destroy
     category = Category.find(params[:id])
     category.destroy
