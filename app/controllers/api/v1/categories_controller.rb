@@ -1,5 +1,5 @@
 class Api::V1::CategoriesController < ApplicationController
-  before_action :check_authorization, expect: [:show]
+  before_action :check_authorization, except: [:show]
 
   def index
     @categories = Category.search(params[:search]).paginate(page: params[:page])
