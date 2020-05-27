@@ -10,9 +10,14 @@ const Links = () => {
       icon: "home"
     },
     {
-      title: "Post",
+      title: "Posts",
       path: "/admin/dashboard",
       icon: "pen"
+    },
+    {
+      title: "Categories",
+      path: "/admin/categories",
+      icon: "slider"
     },
     {
       title: "Users",
