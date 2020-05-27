@@ -1,4 +1,6 @@
 class Api::V1::PostsController < ApplicationController
+  before_action :check_authentication, only: [:create, :update, :destroy]
+
   def index
     @posts = Post.search(params[:search]).paginate(page: params[:page])
   end
