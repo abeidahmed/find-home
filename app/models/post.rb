@@ -1,6 +1,8 @@
 class Post < ApplicationRecord
   belongs_to :user
   belongs_to :category
+  has_many :tagnations
+  has_many :tags, through: :tagnations
 
   validates :title, presence: true, length: { maximum: 255 }, uniqueness: { case_sensitive: false }
   validates :content, presence: true
