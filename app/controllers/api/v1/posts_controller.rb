@@ -1,4 +1,8 @@
 class Api::V1::PostsController < ApplicationController
+  def index
+    @posts = Post.paginate(page: params[:page])
+  end
+
   def create
     @post = current_user.posts.create(post_params)
     if @post.save
