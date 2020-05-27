@@ -37,6 +37,6 @@ class Api::V1::PostsController < ApplicationController
   private
 
   def post_params
-    params.require(:post).permit(:title, :content, :excerpt, :category_id)
+    params.require(:post).permit(:title, :content, :excerpt, :category_id, tag_ids: [])
   end
 end
