@@ -8,6 +8,12 @@ class Api::V1::PostsController < ApplicationController
     end
   end
 
+  def destroy
+    post = Post.find(params[:id])
+    post.destroy
+    render json: { message: "Successfully deleted post: #{post.title}" }
+  end
+
   private
 
   def post_params
