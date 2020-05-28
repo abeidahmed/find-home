@@ -29,6 +29,7 @@ export const categoryList = (state = initialState, action) => {
     case ADD_CATEGORY_LOADING:
       return {
         ...state,
+        error: [],
         loadWhileAdd: action.payload
       };
     case ADD_CATEGORY_ERROR:
