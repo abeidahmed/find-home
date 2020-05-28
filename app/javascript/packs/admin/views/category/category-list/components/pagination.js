@@ -17,6 +17,7 @@ const Pagination = ({
       hasPreviousPage={hasPreviousPage}
       hasNextPage={hasNextPage}
       totalPages={totalPages}
+      totalItems={totalItems}
       startIndex={startIndex}
       endIndex={endIndex}
     />
