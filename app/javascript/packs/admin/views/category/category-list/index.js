@@ -3,6 +3,7 @@ import { AdminLayout } from "@components/layout";
 import CategoryTable from "./components/category-table";
 import { connect } from "react-redux";
 import { fetchAllCategories } from "@api/category/category-list";
+import Pagination from "./components/pagination";
 import { SearchField } from "@components/search";
 
 const CategoryList = ({ categories, fetchCategories }) => {
@@ -22,6 +23,7 @@ const CategoryList = ({ categories, fetchCategories }) => {
         <div></div>
       </div>
       <CategoryTable categories={categories} />
+      <Pagination />
     </AdminLayout>
   );
 };
