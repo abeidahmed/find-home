@@ -17,6 +17,7 @@ export const addCategoryToList = (title, description) => async (dispatch, getSta
     );
 
     await dispatch(addCategory(res.data.category));
+    dispatch(addCategoryLoading(false));
     dispatch(closeModal());
   } catch (err) {
     dispatch(addCategoryError(err.response.data));

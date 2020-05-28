@@ -1,11 +1,19 @@
 import React, { useState } from "react";
+import { addCategoryLoading } from "@actions/category-list";
 import { addCategoryToList } from "@api/category/add-category";
 import { closeModal } from "@actions/modal";
 import { connect } from "react-redux";
 import { InputField, TextField } from "@components/field";
 import { ModalTop, ModalBottom, ModalWrapper } from "@components/modal";
 
-const AddCategory = ({ addCategoryToList, closeModal, error, modalType }) => {
+const AddCategory = ({
+  addCategoryToList,
+  closeModal,
+  error,
+  modalType,
+  isLoading,
+  setLoading
+}) => {
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
 
@@ -45,10 +53,14 @@ const AddCategory = ({ addCategoryToList, closeModal, error, modalType }) => {
         <span className="flex w-full rounded-md shadow-sm sm:ml-3 sm:w-auto">
           <button
             type="button"
-            onClick={() => addCategoryToList(title, description)}
+            disabled={isLoading}
+            onClick={() => {
+              addCategoryToList(title, description);
+              setLoading(true);
+            }}
             className="inline-flex justify-center w-full rounded-md border border-transparent px-4 py-2 bg-indigo-600 text-base leading-6 font-medium text-white shadow-sm hover:bg-indigo-500 focus:outline-none focus:border-indigo-700 focus:shadow-outline-indigo transition ease-in-out duration-150 sm:text-sm sm:leading-5"
           >
-            Add category
+            {isLoading ? "Adding..." : "Add category"}
           </button>
         </span>
         <span className="mt-3 flex w-full rounded-md shadow-sm sm:mt-0 sm:w-auto">
@@ -66,14 +78,17 @@ const AddCategory = ({ addCategoryToList, closeModal, error, modalType }) => {
 };
 
 const mapStateToProps = state => {
+  const { error, loadWhileAdd } = state.categoryList;
   return {
     modalType: state.modal.modalType,
-    error: state.categoryList.error
+    error,
+    isLoading: loadWhileAdd
   };
 };
 
 const mapDispatchToProps = dispatch => {
   return {
+    setLoading: bool => dispatch(addCategoryLoading(bool)),
     addCategoryToList: (title, description) => dispatch(addCategoryToList(title, description)),
     closeModal: () => dispatch(closeModal())
   };
