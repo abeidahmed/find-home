@@ -1,10 +1,14 @@
-import React from "react";
+import React, { useState } from "react";
+import { addCategoryToList } from "@api/category/add-category";
 import { closeModal } from "@actions/modal";
 import { connect } from "react-redux";
 import { InputField, TextField } from "@components/field";
 import { ModalTop, ModalBottom, ModalWrapper } from "@components/modal";
 
-const AddCategory = ({ closeModal, modalType }) => {
+const AddCategory = ({ addCategoryToList, closeModal, error, modalType }) => {
+  const [title, setTitle] = useState("");
+  const [description, setDescription] = useState("");
+
   const isActive = modalType === "ADD_CATEGORY";
 
   return (
@@ -15,10 +19,25 @@ const AddCategory = ({ closeModal, modalType }) => {
         </div>
         <div className="mt-5">
           <div>
-            <InputField id="add_category_modal_title" label="Title" />
+            <InputField
+              id="add_category_modal_title"
+              label="Title"
+              error={error}
+              errorType="Title"
+              value={title}
+              onChange={e => setTitle(e.target.value)}
+            />
           </div>
           <div className="mt-4">
-            <TextField resizeNone id="add_category_modal_description" label="Description" />
+            <TextField
+              resizeNone
+              id="add_category_modal_description"
+              label="Description"
+              error={error}
+              errorType="Description"
+              value={description}
+              onChange={e => setDescription(e.target.value)}
+            />
           </div>
         </div>
       </ModalTop>
@@ -26,6 +45,7 @@ const AddCategory = ({ closeModal, modalType }) => {
         <span className="flex w-full rounded-md shadow-sm sm:ml-3 sm:w-auto">
           <button
             type="button"
+            onClick={() => addCategoryToList(title, description)}
             className="inline-flex justify-center w-full rounded-md border border-transparent px-4 py-2 bg-indigo-600 text-base leading-6 font-medium text-white shadow-sm hover:bg-indigo-500 focus:outline-none focus:border-indigo-700 focus:shadow-outline-indigo transition ease-in-out duration-150 sm:text-sm sm:leading-5"
           >
             Add category
@@ -47,12 +67,14 @@ const AddCategory = ({ closeModal, modalType }) => {
 
 const mapStateToProps = state => {
   return {
-    modalType: state.modal.modalType
+    modalType: state.modal.modalType,
+    error: state.categoryList.error
   };
 };
 
 const mapDispatchToProps = dispatch => {
   return {
+    addCategoryToList: (title, description) => dispatch(addCategoryToList(title, description)),
     closeModal: () => dispatch(closeModal())
   };
 };
