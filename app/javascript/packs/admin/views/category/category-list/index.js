@@ -4,12 +4,13 @@ import CategoryTable from "./components/category-table";
 import { connect } from "react-redux";
 import { fetchAllCategories } from "@api/category/category-list";
 import Icon from "@components/icon";
+import { openModal } from "@actions/modal";
 import Pagination from "./components/pagination";
 import queryString from "query-string";
 import { SearchField } from "@components/search";
 import { useAddQuery } from "@utils/add-query";
 
-const CategoryList = ({ categories, fetchCategories, location }) => {
+const CategoryList = ({ categories, fetchCategories, location, openModal }) => {
   const [searchValue, setSearchValue] = useState("");
   const query = useAddQuery();
 
@@ -38,7 +39,10 @@ const CategoryList = ({ categories, fetchCategories, location }) => {
           />
         </div>
         <div>
-          <button className="group flex justify-center py-2 px-4 border border-transparent text-sm leading-5 font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-500 focus:outline-none focus:border-indigo-700 focus:shadow-outline-indigo active:bg-indigo-700 transition duration-150 ease-in-out">
+          <button
+            onClick={() => openModal("ADD_CATEGORY", {})}
+            className="group flex justify-center py-2 px-4 border border-transparent text-sm leading-5 font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-500 focus:outline-none focus:border-indigo-700 focus:shadow-outline-indigo active:bg-indigo-700 transition duration-150 ease-in-out"
+          >
             <span className="-ml-1 pr-1">
               <Icon
                 icon="plus"
@@ -64,7 +68,8 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
   return {
-    fetchCategories: param => dispatch(fetchAllCategories(param))
+    fetchCategories: param => dispatch(fetchAllCategories(param)),
+    openModal: (modalType, modalProps) => dispatch(openModal(modalType, modalProps))
   };
 };
 
