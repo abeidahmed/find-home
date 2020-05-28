@@ -31,6 +31,11 @@ const UserList = ({ location, fetchUsers, modalType, users }) => {
         <div className="max-w-md flex-1">
           <SearchField
             placeholder="Search users by name, email"
+            show={searchValue}
+            clear={() => {
+              setSearchValue("");
+              query("search", "");
+            }}
             value={searchValue}
             onChange={e => {
               setSearchValue(e.target.value);

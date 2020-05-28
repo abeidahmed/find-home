@@ -31,6 +31,11 @@ const CategoryList = ({ categories, fetchCategories, location, openModal }) => {
         <div className="max-w-md flex-1">
           <SearchField
             placeholder="Search categories by title"
+            show={searchValue}
+            clear={() => {
+              setSearchValue("");
+              query("search", "");
+            }}
             value={searchValue}
             onChange={e => {
               setSearchValue(e.target.value);
