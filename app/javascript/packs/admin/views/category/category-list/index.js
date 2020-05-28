@@ -4,15 +4,19 @@ import CategoryTable from "./components/category-table";
 import { connect } from "react-redux";
 import { fetchAllCategories } from "@api/category/category-list";
 import Pagination from "./components/pagination";
+import queryString from "query-string";
 import { SearchField } from "@components/search";
 
-const CategoryList = ({ categories, fetchCategories }) => {
+const CategoryList = ({ categories, fetchCategories, location }) => {
+  let queryParam = queryString.parse(location.search);
+  let pageNumber = queryParam.page;
+
   useEffect(() => {
     const fetchAllCategories = () => {
-      fetchCategories();
+      fetchCategories(queryParam);
     };
     fetchAllCategories();
-  }, [fetchCategories]);
+  }, [fetchCategories, pageNumber]);
 
   return (
     <AdminLayout>
@@ -37,7 +41,7 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
   return {
-    fetchCategories: () => dispatch(fetchAllCategories())
+    fetchCategories: param => dispatch(fetchAllCategories(param))
   };
 };
 
