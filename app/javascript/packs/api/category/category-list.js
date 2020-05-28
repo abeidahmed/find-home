@@ -8,7 +8,8 @@ export const fetchAllCategories = param => async (dispatch, getState) => {
     {
       url: "/api/v1/categories",
       query: {
-        page: param.page
+        page: param.page,
+        search: param.search
       }
     },
     { skipEmptyString: true }
