@@ -9,7 +9,7 @@ import { SearchField } from "@components/search";
 import UserTable from "./components/user-table";
 import { useAddQuery } from "@utils/add-query";
 
-const UserList = ({ match, location, fetchUsers, modalType, users }) => {
+const UserList = ({ location, fetchUsers, modalType, users }) => {
   const [searchValue, setSearchValue] = useState("");
   const query = useAddQuery();
 
@@ -39,11 +39,11 @@ const UserList = ({ match, location, fetchUsers, modalType, users }) => {
           />
         </div>
         <div>
-          <FilterButton match={match} />
+          <FilterButton />
         </div>
       </div>
       <UserTable users={users} />
-      <Pagination match={match} location={location} />
+      <Pagination />
     </AdminLayout>
   );
 };
