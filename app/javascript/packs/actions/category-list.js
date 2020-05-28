@@ -1,11 +1,4 @@
-import { ADD_CATEGORY, ADD_CATEGORY_ERROR, ADD_CATEGORY_LOADING, FETCH_CATEGORIES } from "./types";
-
-export const addCategory = data => {
-  return {
-    type: ADD_CATEGORY,
-    payload: data
-  };
-};
+import { ADD_CATEGORY_ERROR, ADD_CATEGORY_LOADING, FETCH_CATEGORIES } from "./types";
 
 export const addCategoryError = error => {
   return {

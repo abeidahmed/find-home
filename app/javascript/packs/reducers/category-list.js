@@ -1,9 +1,4 @@
-import {
-  ADD_CATEGORY,
-  ADD_CATEGORY_ERROR,
-  ADD_CATEGORY_LOADING,
-  FETCH_CATEGORIES
-} from "@actions/types";
+import { ADD_CATEGORY_ERROR, ADD_CATEGORY_LOADING, FETCH_CATEGORIES } from "@actions/types";
 
 const initialState = {
   categories: [],
@@ -20,11 +15,6 @@ export const categoryList = (state = initialState, action) => {
         categories: action.payload.categories,
         pageInfo: action.payload.pageInfo,
         loadWhileAdd: false
-      };
-    case ADD_CATEGORY:
-      return {
-        ...state,
-        categories: [action.payload, ...state.categories]
       };
     case ADD_CATEGORY_LOADING:
       return {

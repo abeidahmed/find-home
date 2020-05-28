@@ -1,5 +1,5 @@
 import axios from "axios";
-import { addCategory, addCategoryError, addCategoryLoading } from "@actions/category-list";
+import { addCategoryError, addCategoryLoading } from "@actions/category-list";
 import { authToken } from "@/middleware/auth-token";
 import { closeModal } from "@actions/modal";
 
@@ -16,7 +16,6 @@ export const addCategoryToList = (title, description) => async (dispatch, getSta
       authToken(getState)
     );
 
-    await dispatch(addCategory(res.data.category));
     await dispatch(addCategoryLoading(false));
     await dispatch(closeModal());
   } catch (err) {
