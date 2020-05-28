@@ -10,7 +10,7 @@ import queryString from "query-string";
 import { SearchField } from "@components/search";
 import { useAddQuery } from "@utils/add-query";
 
-const CategoryList = ({ categories, fetchCategories, location, openModal }) => {
+const CategoryList = ({ categories, fetchCategories, location, openModal, modalType }) => {
   const [searchValue, setSearchValue] = useState("");
   const query = useAddQuery();
 
@@ -23,7 +23,7 @@ const CategoryList = ({ categories, fetchCategories, location, openModal }) => {
       fetchCategories(queryParam);
     };
     fetchAllCategories();
-  }, [fetchCategories, pageNumber, searchTerm]);
+  }, [fetchCategories, pageNumber, modalType, searchTerm]);
 
   return (
     <AdminLayout>
@@ -66,8 +66,10 @@ const CategoryList = ({ categories, fetchCategories, location, openModal }) => {
 
 const mapStateToProps = state => {
   const { categories } = state.categoryList;
+  const { modalType } = state.modal;
   return {
-    categories
+    categories,
+    modalType
   };
 };
 
