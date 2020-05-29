@@ -1,24 +1,18 @@
 import axios from "axios";
 import { authToken } from "@/middleware/auth-token";
-import { fetchTags } from "@actions/tag-list";
 import queryString from "query-string";
 
-export const fetchAllTags = param => async (dispatch, getState) => {
+export const fetchTagsApi = async (key, page, search) => {
   const url = queryString.stringifyUrl(
     {
       url: "/api/v1/tags",
       query: {
-        page: param.page,
-        search: param.search
+        page,
+        search
       }
     },
     { skipEmptyString: true }
   );
 
-  try {
-    const res = await axios.get(url, authToken(getState));
-    await dispatch(fetchTags(res.data.tags, res.data.pageInfo));
-  } catch (err) {
-    console.log(err.response.data);
-  }
+  return await axios.get(url, authToken());
 };

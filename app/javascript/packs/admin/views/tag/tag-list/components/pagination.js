@@ -1,15 +1,16 @@
 import React from "react";
-import { connect } from "react-redux";
 import { AdminPagination } from "@components/pagination";
 
 const Pagination = ({
-  currentPage,
-  hasPreviousPage,
-  hasNextPage,
-  totalPages,
-  totalItems,
-  startIndex,
-  endIndex
+  pageInfo: {
+    currentPage,
+    hasPreviousPage,
+    hasNextPage,
+    totalPages,
+    totalItems,
+    startIndex,
+    endIndex
+  }
 }) => {
   return (
     <AdminPagination
@@ -24,28 +25,4 @@ const Pagination = ({
   );
 };
 
-const mapStateToProps = state => {
-  const {
-    currentPage,
-    hasPreviousPage,
-    hasNextPage,
-    totalPages,
-    totalItems,
-    startIndex,
-    endIndex
-  } = state.tagList.pageInfo;
-  return {
-    currentPage,
-    hasPreviousPage,
-    hasNextPage,
-    totalPages,
-    totalItems,
-    startIndex,
-    endIndex
-  };
-};
-
-export default connect(
-  mapStateToProps,
-  null
-)(Pagination);
+export default Pagination;

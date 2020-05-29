@@ -9,6 +9,3 @@ export const CLOSE_SIDEBAR = "CLOSE_SIDEBAR";
 // modal
 export const OPEN_MODAL = "OPEN_MODAL";
 export const CLOSE_MODAL = "CLOSE_MODAL";
-
-// tag list
-export const FETCH_TAGS = "FETCH_TAGS";

@@ -1,15 +1,16 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { AdminLayout } from "@components/layout";
-import { connect } from "react-redux";
-import { fetchAllTags } from "@api/tag/tag-list";
+import { fetchTagsApi } from "@api/tag/tag-list";
 import Icon from "@components/icon";
 import Pagination from "./components/pagination";
 import queryString from "query-string";
 import { SearchField } from "@components/search";
+import { Spinner } from "@components/spinner";
 import TagTable from "./components/tag-table";
 import { useAddQuery } from "@utils/add-query";
+import { usePaginatedQuery } from "react-query";
 
-const TagList = ({ fetchTags, tags, location }) => {
+const TagList = ({ location }) => {
   const [searchValue, setSearchValue] = useState("");
   const query = useAddQuery();
 
@@ -17,12 +18,12 @@ const TagList = ({ fetchTags, tags, location }) => {
   let pageNumber = queryParam.page;
   let searchTerm = queryParam.search;
 
-  useEffect(() => {
-    const fetchAllTags = () => {
-      fetchTags(queryParam);
-    };
-    fetchAllTags();
-  }, [fetchTags, pageNumber, searchTerm]);
+  const { status, resolvedData, error } = usePaginatedQuery(
+    ["tagList", pageNumber, searchTerm],
+    fetchTagsApi
+  );
+
+  if (status === "loading" || status === "error") return <Spinner />;
 
   return (
     <AdminLayout>
@@ -54,25 +55,10 @@ const TagList = ({ fetchTags, tags, location }) => {
           </button>
         </div>
       </div>
-      <TagTable tags={tags} />
-      <Pagination />
+      <TagTable tags={resolvedData.data.tags} />
+      <Pagination pageInfo={resolvedData.data.pageInfo} />
     </AdminLayout>
   );
 };
 
-const mapStateToProps = state => {
-  return {
-    tags: state.tagList.tags
-  };
-};
-
-const mapDispatchToProps = dispatch => {
-  return {
-    fetchTags: param => dispatch(fetchAllTags(param))
-  };
-};
-
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(TagList);
+export default TagList;
