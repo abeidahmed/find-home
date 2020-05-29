@@ -1,10 +1,19 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { AdminLayout } from "@components/layout";
+import { connect } from "react-redux";
+import { fetchAllTags } from "@api/tag/tag-list";
 import Icon from "@components/icon";
 import { SearchField } from "@components/search";
 import TagTable from "./components/tag-table";
 
-const TagList = () => {
+const TagList = ({ fetchTags, tags }) => {
+  useEffect(() => {
+    const fetchAllTags = () => {
+      fetchTags();
+    };
+    fetchAllTags();
+  }, [fetchTags]);
+
   return (
     <AdminLayout>
       <div className="flex items-center justify-between space-x-4">
@@ -23,9 +32,24 @@ const TagList = () => {
           </button>
         </div>
       </div>
-      <TagTable />
+      <TagTable tags={tags} />
     </AdminLayout>
   );
 };
 
-export default TagList;
+const mapStateToProps = state => {
+  return {
+    tags: state.tagList.tags
+  };
+};
+
+const mapDispatchToProps = dispatch => {
+  return {
+    fetchTags: () => dispatch(fetchAllTags())
+  };
+};
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(TagList);
