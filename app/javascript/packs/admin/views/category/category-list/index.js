@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import { AdminLayout } from "@components/layout";
 import axios from "axios";
 import CategoryTable from "./components/category-table";
@@ -10,8 +10,11 @@ import { SearchField } from "@components/search";
 import { Spinner } from "@components/spinner";
 import { useAddQuery } from "@utils/add-query";
 import { usePaginatedQuery } from "react-query";
+import { ModalProvider } from "@/app";
 
 const CategoryList = ({ location, openModal }) => {
+  const { dispatch } = useContext(ModalProvider);
+
   let queryParam = queryString.parse(location.search);
   let pageNumber = queryParam.page;
   let searchTerm = queryParam.search;
@@ -62,7 +65,9 @@ const CategoryList = ({ location, openModal }) => {
         </div>
         <div>
           <button
-            onClick={() => openModal("ADD_CATEGORY", {})}
+            onClick={() =>
+              dispatch({ type: "OPEN_MODAL", modalType: "ADD_CATEGORY", modalProps: {} })
+            }
             className="group flex justify-center py-2 px-4 border border-transparent text-sm leading-5 font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-500 focus:outline-none focus:border-indigo-700 focus:shadow-outline-indigo active:bg-indigo-700 transition duration-150 ease-in-out"
           >
             <span className="-ml-1 pr-1">

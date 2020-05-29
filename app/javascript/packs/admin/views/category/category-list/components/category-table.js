@@ -1,10 +1,13 @@
-import React from "react";
+import React, { useContext } from "react";
 import { connect } from "react-redux";
 import Icon from "@components/icon";
 import { Link } from "react-router-dom";
-import { openModal } from "@actions/modal";
+import { ModalProvider } from "@/app";
+// import { openModal } from "@actions/modal";
 
-const CategoryTable = ({ categories, openModal }) => {
+const CategoryTable = ({ categories }) => {
+  const { dispatch } = useContext(ModalProvider);
+
   return (
     <div className="my-8 shadow overflow-hidden sm:rounded-lg">
       <div className="align-middle inline-block w-full overflow-x-auto border-b border-gray-200">
@@ -50,11 +53,15 @@ const CategoryTable = ({ categories, openModal }) => {
                 <td className="space-x-2 px-6 py-4 whitespace-no-wrap text-right text-sm leading-5 font-medium">
                   <button
                     onClick={() =>
-                      openModal("DELETE_CATEGORY", {
-                        id: category.id,
-                        title: `Delete ${category.title}`,
-                        content:
-                          "Are you sure you want to delete this category? Once you click on delete, there's no going back."
+                      dispatch({
+                        type: "OPEN_MODAL",
+                        modalType: "DELETE_CATEGORY",
+                        modalProps: {
+                          id: category.id,
+                          title: `Delete ${category.title}`,
+                          content:
+                            "Are you sure you want to delete this category? Once you click on delete, there's no going back."
+                        }
                       })
                     }
                     className="font-medium text-red-600 hover:text-red-900"
@@ -74,13 +81,15 @@ const CategoryTable = ({ categories, openModal }) => {
   );
 };
 
-const mapDispatchToProps = dispatch => {
-  return {
-    openModal: (modalType, modalProps) => dispatch(openModal(modalType, modalProps))
-  };
-};
+export default CategoryTable;
 
-export default connect(
-  null,
-  mapDispatchToProps
-)(CategoryTable);
+// const mapDispatchToProps = dispatch => {
+//   return {
+//     openModal: (modalType, modalProps) => dispatch(openModal(modalType, modalProps))
+//   };
+// };
+
+// export default connect(
+//   null,
+//   mapDispatchToProps
+// )(CategoryTable);

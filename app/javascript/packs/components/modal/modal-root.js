@@ -1,8 +1,9 @@
-import React from "react";
-import { connect } from "react-redux";
+import React, { useContext } from "react";
+// import { connect } from "react-redux";
 import AddCategory from "@admin/views/category/category-list/components/add-category";
 import DeleteCategory from "@admin/views/category/category-list/components/delete-category";
 import DeleteUser from "@admin/views/user/user-list/components/delete-modal";
+import { ModalProvider } from "@/app";
 
 const MODAL_COMPONENTS = {
   ADD_CATEGORY: AddCategory,
@@ -10,7 +11,12 @@ const MODAL_COMPONENTS = {
   DELETE_USER: DeleteUser
 };
 
-const ModalRoot = ({ modalType, modalProps }) => {
+const ModalRoot = () => {
+  const { modalState } = useContext(ModalProvider);
+
+  const modalType = modalState.modalType;
+  const modalProps = modalState.modalProps;
+
   if (!modalType) {
     return null;
   }
@@ -19,14 +25,16 @@ const ModalRoot = ({ modalType, modalProps }) => {
   return <SpecificModal {...modalProps} />;
 };
 
-const mapStateToProps = state => {
-  return {
-    modalType: state.modal.modalType,
-    modalProps: state.modal.modalProps
-  };
-};
+export default ModalRoot;
 
-export default connect(
-  mapStateToProps,
-  null
-)(ModalRoot);
+// const mapStateToProps = state => {
+//   return {
+//     modalType: state.modal.modalType,
+//     modalProps: state.modal.modalProps
+//   };
+// };
+
+// export default connect(
+//   mapStateToProps,
+//   null
+// )(ModalRoot);

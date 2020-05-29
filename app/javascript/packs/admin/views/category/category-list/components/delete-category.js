@@ -1,48 +1,54 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
+import axios from "axios";
 import { closeModal } from "@actions/modal";
 import { connect } from "react-redux";
 import { DeleteModal } from "@components/modal/types/delete-modal";
 import { deleteCategory } from "@api/category/delete-category";
+import { ModalProvider } from "@/app";
+import { useQuery, useMutation, queryCache } from "react-query";
+import { authToken } from "@/middleware/auth-token";
 
-const DeleteCategory = ({ title, content, closeModal, delCategory, modalType }) => {
+const DeleteCategory = () => {
+  const { modalState, dispatch } = useContext(ModalProvider);
+
+  const modalType = modalState.modalType;
+  const modalProps = modalState.modalProps;
+
+  const deleteCategoryApi = async () => {
+    const res = await axios.delete(`/api/v1/categories/${modalProps.id}`, authToken());
+    return res;
+  };
+
+  const [mutate] = useMutation(deleteCategoryApi, {
+    onSuccess: () => {
+      queryCache.refetchQueries("deleteCategory");
+    }
+  });
+
   const [isLoading, setIsLoading] = useState(false);
 
   const handleDelete = () => {
-    setIsLoading(true);
-    delCategory();
-    setIsLoading(false);
+    mutate();
     closeModal();
+  };
+
+  const todoListQuery = useQuery("deleteCategory", deleteCategoryApi);
+  console.log(todoListQuery);
+
+  const handleClose = () => {
+    dispatch({ type: "CLOSE_MODAL" });
   };
 
   return (
     <DeleteModal
       isActive={modalType === "DELETE_CATEGORY"}
-      handleClose={closeModal}
+      handleClose={handleClose}
       handleDelete={handleDelete}
       loading={isLoading}
-      title={title}
-      description={content}
+      title={modalProps.title}
+      description={modalProps.content}
     />
   );
 };
 
-const mapStateToProps = state => {
-  const { title, content } = state.modal.modalProps;
-  return {
-    modalType: state.modal.modalType,
-    title,
-    content
-  };
-};
-
-const mapDispatchToProps = dispatch => {
-  return {
-    delCategory: () => dispatch(deleteCategory()),
-    closeModal: () => dispatch(closeModal())
-  };
-};
-
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(DeleteCategory);
+export default DeleteCategory;

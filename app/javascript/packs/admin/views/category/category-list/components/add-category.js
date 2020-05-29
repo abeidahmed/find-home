@@ -1,23 +1,23 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import { addCategoryLoading } from "@actions/category-list";
 import { addCategoryToList } from "@api/category/add-category";
 import { closeModal } from "@actions/modal";
 import { connect } from "react-redux";
 import { InputField, TextField } from "@components/field";
 import { ModalTop, ModalBottom, ModalWrapper } from "@components/modal";
+import { ModalProvider } from "@/app";
 
-const AddCategory = ({
-  addCategoryToList,
-  closeModal,
-  error,
-  modalType,
-  isLoading,
-  setLoading
-}) => {
+const AddCategory = ({ addCategoryToList, error, isLoading, setLoading }) => {
+  const { modalState, dispatch } = useContext(ModalProvider);
+
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
 
-  const isActive = modalType === "ADD_CATEGORY";
+  const isActive = modalState.modalType === "ADD_CATEGORY";
+
+  const closeModal = () => {
+    dispatch({ type: "CLOSE_MODAL" });
+  };
 
   return (
     <ModalWrapper isActive={isActive} onOutsideClick={closeModal}>
