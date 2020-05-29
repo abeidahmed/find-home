@@ -3,6 +3,7 @@ import { AdminLayout } from "@components/layout";
 import { connect } from "react-redux";
 import { fetchAllTags } from "@api/tag/tag-list";
 import Icon from "@components/icon";
+import Pagination from "./components/pagination";
 import queryString from "query-string";
 import { SearchField } from "@components/search";
 import TagTable from "./components/tag-table";
@@ -13,6 +14,7 @@ const TagList = ({ fetchTags, tags, location }) => {
   const query = useAddQuery();
 
   let queryParam = queryString.parse(location.search);
+  let pageNumber = queryParam.page;
   let searchTerm = queryParam.search;
 
   useEffect(() => {
@@ -20,7 +22,7 @@ const TagList = ({ fetchTags, tags, location }) => {
       fetchTags(queryParam);
     };
     fetchAllTags();
-  }, [fetchTags, searchTerm]);
+  }, [fetchTags, pageNumber, searchTerm]);
 
   return (
     <AdminLayout>
@@ -53,6 +55,7 @@ const TagList = ({ fetchTags, tags, location }) => {
         </div>
       </div>
       <TagTable tags={tags} />
+      <Pagination />
     </AdminLayout>
   );
 };

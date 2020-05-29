@@ -8,6 +8,7 @@ export const fetchAllTags = param => async (dispatch, getState) => {
     {
       url: "/api/v1/tags",
       query: {
+        page: param.page,
         search: param.search
       }
     },
