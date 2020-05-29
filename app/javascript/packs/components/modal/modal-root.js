@@ -3,11 +3,15 @@ import { connect } from "react-redux";
 import AddCategory from "@admin/views/category/category-list/components/add-category";
 import DeleteCategory from "@admin/views/category/category-list/components/delete-category";
 import DeleteUser from "@admin/views/user/user-list/components/delete-modal";
+import AddTag from "@admin/views/tag/tag-list/components/add-tag";
+import DeleteTag from "@admin/views/tag/tag-list/components/delete-tag";
 
 const MODAL_COMPONENTS = {
   ADD_CATEGORY: AddCategory,
   DELETE_CATEGORY: DeleteCategory,
-  DELETE_USER: DeleteUser
+  DELETE_USER: DeleteUser,
+  ADD_TAG: AddTag,
+  DELETE_TAG: DeleteTag
 };
 
 const ModalRoot = ({ modalType, modalProps }) => {

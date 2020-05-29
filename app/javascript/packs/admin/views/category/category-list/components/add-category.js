@@ -1,4 +1,4 @@
-import React, { useState, useContext } from "react";
+import React, { useState } from "react";
 import { addCategoryApi } from "@api/category/add-category";
 import { closeModal } from "@actions/modal";
 import { connect } from "react-redux";

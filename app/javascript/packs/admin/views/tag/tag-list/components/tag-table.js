@@ -1,9 +1,11 @@
 import React from "react";
+import { connect } from "react-redux";
 import Icon from "@components/icon";
 import { Link } from "react-router-dom";
+import { openModal } from "@actions/modal";
 import { TableWrapper, Th, Td } from "@components/table";
 
-const TagTable = ({ tags }) => {
+const TagTable = ({ tags, openModal }) => {
   return (
     <TableWrapper>
       <thead>
@@ -31,7 +33,19 @@ const TagTable = ({ tags }) => {
             <Td>{tag.postCount}</Td>
             <Td>{tag.createdAt}</Td>
             <Td textRight>
-              <button className="font-medium text-red-600 hover:text-red-900">Delete</button>
+              <button
+                onClick={() =>
+                  openModal("DELETE_TAG", {
+                    id: tag.id,
+                    title: `Delete ${tag.title}`,
+                    content:
+                      "Are you sure you want to delete this tag? Once you click on delete, there's no going back."
+                  })
+                }
+                className="font-medium text-red-600 hover:text-red-900"
+              >
+                Delete
+              </button>
               <a href="/" className="text-indigo-600 hover:text-indigo-900">
                 Edit
               </a>
@@ -43,4 +57,13 @@ const TagTable = ({ tags }) => {
   );
 };
 
-export default TagTable;
+const mapDispatchToProps = dispatch => {
+  return {
+    openModal: (modalType, modalProps) => dispatch(openModal(modalType, modalProps))
+  };
+};
+
+export default connect(
+  null,
+  mapDispatchToProps
+)(TagTable);
