@@ -1,6 +1,5 @@
 json.tag do
   json.partial! "api/v1/tags/tag", tag: @tag
-  json.post_count @tag_posts.count
   
   json.tag_posts do
     json.page_info do
