@@ -5,6 +5,7 @@ import Dashboard from "@admin/views/dashboard";
 import Header from "@admin/views/header";
 import ShowCategory from "@admin/views/category/show-category";
 import Sidebar from "@admin/views/sidebar";
+import TagList from "@admin/views/tag/tag-list";
 import UserList from "@admin/views/user/user-list";
 
 const AdminRoute = ({ match }) => {
@@ -18,6 +19,7 @@ const AdminRoute = ({ match }) => {
           <Route path={`${match.path}/users`} component={UserList} />
           <Route exact path={`${match.path}/categories`} component={CategoryList} />
           <Route path={`${match.path}/categories/:id`} component={ShowCategory} />
+          <Route path={`${match.path}/tags`} component={TagList} />
         </Switch>
       </div>
     </div>
