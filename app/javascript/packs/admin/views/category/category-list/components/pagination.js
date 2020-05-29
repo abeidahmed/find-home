@@ -2,7 +2,6 @@ import React from "react";
 import { AdminPagination } from "@components/pagination";
 
 const Pagination = ({
-  setPage,
   pageInfo: {
     currentPage,
     hasPreviousPage,
@@ -22,7 +21,6 @@ const Pagination = ({
       totalItems={totalItems}
       startIndex={startIndex}
       endIndex={endIndex}
-      setPage={setPage}
     />
   );
 };

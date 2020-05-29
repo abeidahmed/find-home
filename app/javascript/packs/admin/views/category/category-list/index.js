@@ -18,12 +18,11 @@ const CategoryList = ({ location }) => {
   let pageNumber = queryParam.page;
   let searchTerm = queryParam.search;
 
-  const [searchValue, setSearchValue] = useState(searchTerm);
-  const [page, setPage] = useState(pageNumber);
+  const [searchValue, setSearchValue] = useState("");
   const query = useAddQuery();
 
   const { status, resolvedData, error } = usePaginatedQuery(
-    ["categoryList", page, searchTerm],
+    ["categoryList", pageNumber, searchTerm],
     fetchCategoriesApi
   );
 
@@ -65,7 +64,7 @@ const CategoryList = ({ location }) => {
         </div>
       </div>
       <CategoryTable categories={resolvedData.data.categories} />
-      <Pagination pageInfo={resolvedData.data.pageInfo} setPage={setPage} />
+      <Pagination pageInfo={resolvedData.data.pageInfo} />
     </AdminLayout>
   );
 };

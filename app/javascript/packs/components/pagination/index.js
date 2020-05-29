@@ -9,8 +9,7 @@ export const AdminPagination = ({
   totalPages,
   totalItems,
   startIndex,
-  endIndex,
-  setPage
+  endIndex
 }) => {
   const query = useAddQuery();
 
@@ -24,10 +23,7 @@ export const AdminPagination = ({
       <div className="flex-1 flex justify-between sm:hidden">
         <button
           type="button"
-          onClick={() => {
-            query("page", currentPage - 1);
-            setPage(currentPage - 1);
-          }}
+          onClick={() => query("page", currentPage - 1)}
           disabled={!hasPreviousPage}
           className="relative inline-flex items-center px-4 py-2 border border-gray-300 text-sm leading-5 font-medium rounded-md text-gray-700 bg-white hover:text-gray-500 focus:outline-none focus:shadow-outline-blue focus:border-blue-300 active:bg-gray-100 active:text-gray-700 transition ease-in-out duration-150"
         >
@@ -35,10 +31,7 @@ export const AdminPagination = ({
         </button>
         <button
           type="button"
-          onClick={() => {
-            query("page", currentPage + 1);
-            setPage(currentPage + 1);
-          }}
+          onClick={() => query("page", currentPage + 1)}
           disabled={!hasNextPage}
           className="ml-3 relative inline-flex items-center px-4 py-2 border border-gray-300 text-sm leading-5 font-medium rounded-md text-gray-700 bg-white hover:text-gray-500 focus:outline-none focus:shadow-outline-blue focus:border-blue-300 active:bg-gray-100 active:text-gray-700 transition ease-in-out duration-150"
         >
@@ -58,10 +51,7 @@ export const AdminPagination = ({
             <button
               type="button"
               disabled={!hasPreviousPage}
-              onClick={() => {
-                query("page", currentPage - 1);
-                setPage(currentPage - 1);
-              }}
+              onClick={() => query("page", currentPage - 1)}
               className="relative inline-flex items-center px-2 py-2 rounded-l-md border border-gray-300 bg-white text-sm leading-5 font-medium text-gray-500 hover:text-gray-400 focus:z-10 focus:outline-none focus:border-blue-300 focus:shadow-outline-blue active:bg-gray-100 active:text-gray-500 transition ease-in-out duration-150"
               aria-label="Previous"
             >
@@ -71,10 +61,7 @@ export const AdminPagination = ({
               <button
                 key={pageNumber}
                 type="button"
-                onClick={() => {
-                  query("page", pageNumber);
-                  setPage(pageNumber);
-                }}
+                onClick={() => query("page", pageNumber)}
                 className={`${currentPage === pageNumber &&
                   "text-indigo-900 bg-indigo-100"} -ml-px relative inline-flex items-center px-4 py-2 border border-gray-300 bg-white text-sm leading-5 font-medium text-gray-700 hover:text-gray-500 focus:z-10 focus:outline-none focus:border-blue-300 focus:shadow-outline-blue active:bg-gray-100 active:text-gray-700 transition ease-in-out duration-150`}
               >
@@ -84,10 +71,7 @@ export const AdminPagination = ({
             <button
               type="button"
               disabled={!hasNextPage}
-              onClick={() => {
-                query("page", currentPage + 1);
-                setPage(currentPage + 1);
-              }}
+              onClick={() => query("page", currentPage + 1)}
               className="-ml-px relative inline-flex items-center px-2 py-2 rounded-r-md border border-gray-300 bg-white text-sm leading-5 font-medium text-gray-500 hover:text-gray-400 focus:z-10 focus:outline-none focus:border-blue-300 focus:shadow-outline-blue active:bg-gray-100 active:text-gray-500 transition ease-in-out duration-150"
               aria-label="Next"
             >
