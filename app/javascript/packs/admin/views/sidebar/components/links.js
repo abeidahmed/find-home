@@ -20,6 +20,11 @@ const Links = () => {
       icon: "slider"
     },
     {
+      title: "Tags",
+      path: "/admin/tags",
+      icon: "tag"
+    },
+    {
       title: "Users",
       path: "/admin/users",
       icon: "users"
