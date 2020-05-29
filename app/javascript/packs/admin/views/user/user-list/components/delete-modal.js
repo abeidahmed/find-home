@@ -1,15 +1,11 @@
-import React, { useContext } from "react";
+import React from "react";
+import { closeModal } from "@actions/modal";
+import { connect } from "react-redux";
 import { deleteUserApi } from "@api/user/delete-user";
 import { DeleteModal } from "@components/modal/types/delete-modal";
-import { ModalProvider } from "@/app";
 import { useMutation, queryCache } from "react-query";
 
-const DeleteUser = () => {
-  const { modalState, dispatch } = useContext(ModalProvider);
-
-  const modalType = modalState.modalType;
-  const modalProps = modalState.modalProps;
-
+const DeleteUser = ({ id, title, content, modalType, closeModal }) => {
   const [mutate, { status }] = useMutation(deleteUserApi, {
     onSuccess: () => {
       queryCache.refetchQueries("userList");
@@ -19,25 +15,42 @@ const DeleteUser = () => {
 
   const handleDelete = async () => {
     try {
-      await mutate({ id: modalProps.id });
-      handleClose();
+      await mutate({ id });
+      closeModal();
     } catch (err) {
       console.log(err);
     }
   };
 
-  const handleClose = () => dispatch({ type: "CLOSE_MODAL" });
-
   return (
     <DeleteModal
       isActive={modalType === "DELETE_USER"}
-      handleClose={handleClose}
+      handleClose={closeModal}
       handleDelete={handleDelete}
       loading={status === "loading"}
-      title={modalProps.title}
-      description={modalProps.content}
+      title={title}
+      description={content}
     />
   );
 };
 
-export default DeleteUser;
+const mapStateToProps = state => {
+  const { id, title, content } = state.modal.modalProps;
+  return {
+    modalType: state.modal.modalType,
+    id,
+    title,
+    content
+  };
+};
+
+const mapDispatchToProps = dispatch => {
+  return {
+    closeModal: () => dispatch(closeModal())
+  };
+};
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(DeleteUser);

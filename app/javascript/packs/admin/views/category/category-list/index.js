@@ -1,9 +1,10 @@
-import React, { useState, useContext } from "react";
+import React, { useState } from "react";
 import { AdminLayout } from "@components/layout";
 import CategoryTable from "./components/category-table";
+import { connect } from "react-redux";
 import { fetchCategoriesApi } from "@api/category/category-list";
 import Icon from "@components/icon";
-import { ModalProvider } from "@/app";
+import { openModal } from "@actions/modal";
 import Pagination from "./components/pagination";
 import queryString from "query-string";
 import { SearchField } from "@components/search";
@@ -11,9 +12,7 @@ import { Spinner } from "@components/spinner";
 import { useAddQuery } from "@utils/add-query";
 import { usePaginatedQuery } from "react-query";
 
-const CategoryList = ({ location }) => {
-  const { dispatch } = useContext(ModalProvider);
-
+const CategoryList = ({ location, openModal }) => {
   let queryParam = queryString.parse(location.search);
   let pageNumber = queryParam.page;
   let searchTerm = queryParam.search;
@@ -48,9 +47,7 @@ const CategoryList = ({ location }) => {
         </div>
         <div>
           <button
-            onClick={() =>
-              dispatch({ type: "OPEN_MODAL", modalType: "ADD_CATEGORY", modalProps: {} })
-            }
+            onClick={() => openModal("ADD_CATEGORY", {})}
             className="group flex justify-center py-2 px-4 border border-transparent text-sm leading-5 font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-500 focus:outline-none focus:border-indigo-700 focus:shadow-outline-indigo active:bg-indigo-700 transition duration-150 ease-in-out"
           >
             <span className="-ml-1 pr-1">
@@ -69,4 +66,13 @@ const CategoryList = ({ location }) => {
   );
 };
 
-export default CategoryList;
+const mapDispatchToProps = dispatch => {
+  return {
+    openModal: (modalType, modalProps) => dispatch(openModal(modalType, modalProps))
+  };
+};
+
+export default connect(
+  null,
+  mapDispatchToProps
+)(CategoryList);

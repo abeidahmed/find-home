@@ -1,20 +1,15 @@
 import React, { useState, useContext } from "react";
 import { addCategoryApi } from "@api/category/add-category";
+import { closeModal } from "@actions/modal";
+import { connect } from "react-redux";
 import { InputField, TextField } from "@components/field";
 import { ModalTop, ModalBottom, ModalWrapper } from "@components/modal";
-import { ModalProvider } from "@/app";
 import { useMutation, queryCache } from "react-query";
 
-const AddCategory = () => {
-  const { modalState, dispatch } = useContext(ModalProvider);
-
+const AddCategory = ({ modalType, closeModal }) => {
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
   const [error, setError] = useState([]);
-
-  const isActive = modalState.modalType === "ADD_CATEGORY";
-
-  const closeModal = () => dispatch({ type: "CLOSE_MODAL" });
 
   const [mutate, { status }] = useMutation(addCategoryApi, {
     onSuccess: () => {
@@ -36,7 +31,7 @@ const AddCategory = () => {
   };
 
   return (
-    <ModalWrapper isActive={isActive} onOutsideClick={closeModal}>
+    <ModalWrapper isActive={modalType === "ADD_CATEGORY"} onOutsideClick={closeModal}>
       <ModalTop>
         <div className="mt-3 text-center sm:mt-0 sm:text-left">
           <h3 className="text-lg leading-6 font-medium text-gray-900">Add category</h3>
@@ -90,4 +85,19 @@ const AddCategory = () => {
   );
 };
 
-export default AddCategory;
+const mapStateToProps = state => {
+  return {
+    modalType: state.modal.modalType
+  };
+};
+
+const mapDispatchToProps = dispatch => {
+  return {
+    closeModal: () => dispatch(closeModal())
+  };
+};
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(AddCategory);
