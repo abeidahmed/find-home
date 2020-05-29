@@ -1,24 +1,44 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { AdminLayout } from "@components/layout";
 import { connect } from "react-redux";
 import { fetchAllTags } from "@api/tag/tag-list";
 import Icon from "@components/icon";
+import queryString from "query-string";
 import { SearchField } from "@components/search";
 import TagTable from "./components/tag-table";
+import { useAddQuery } from "@utils/add-query";
 
-const TagList = ({ fetchTags, tags }) => {
+const TagList = ({ fetchTags, tags, location }) => {
+  const [searchValue, setSearchValue] = useState("");
+  const query = useAddQuery();
+
+  let queryParam = queryString.parse(location.search);
+  let searchTerm = queryParam.search;
+
   useEffect(() => {
     const fetchAllTags = () => {
-      fetchTags();
+      fetchTags(queryParam);
     };
     fetchAllTags();
-  }, [fetchTags]);
+  }, [fetchTags, searchTerm]);
 
   return (
     <AdminLayout>
       <div className="flex items-center justify-between space-x-4">
         <div className="max-w-md flex-1">
-          <SearchField placeholder="Search tags by title" />
+          <SearchField
+            placeholder="Search tags by title"
+            show={searchValue}
+            clear={() => {
+              setSearchValue("");
+              query("search", "");
+            }}
+            value={searchValue}
+            onChange={e => {
+              setSearchValue(e.target.value);
+              query("search", e.target.value);
+            }}
+          />
         </div>
         <div>
           <button className="group flex justify-center py-2 px-4 border border-transparent text-sm leading-5 font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-500 focus:outline-none focus:border-indigo-700 focus:shadow-outline-indigo active:bg-indigo-700 transition duration-150 ease-in-out">
@@ -45,7 +65,7 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
   return {
-    fetchTags: () => dispatch(fetchAllTags())
+    fetchTags: param => dispatch(fetchAllTags(param))
   };
 };
 
