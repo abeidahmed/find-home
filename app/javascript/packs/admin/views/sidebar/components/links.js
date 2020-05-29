@@ -1,6 +1,6 @@
 import React from "react";
 import Icon from "@components/icon";
-import { Link } from "react-router-dom";
+import { NavLink } from "react-router-dom";
 
 const Links = () => {
   const navLinks = [
@@ -11,7 +11,7 @@ const Links = () => {
     },
     {
       title: "Posts",
-      path: "/admin/dashboard",
+      path: "/admin/posts",
       icon: "pen"
     },
     {
@@ -34,22 +34,16 @@ const Links = () => {
   return (
     <nav className="mt-2 mb-4 px-1 text-gray-400 font-medium">
       {navLinks.map(link => (
-        <Link
+        <NavLink
           key={link.title}
           to={link.path}
+          activeClassName="bg-gray-200 text-gray-600"
           className="my-1 flex items-center px-2 bg-transparent rounded-md py-2 hover:text-gray-600 transition duration-150"
         >
           <Icon icon={link.icon} className="h-6 w-6" />
           <span className="leading-5 pl-2 text-gray-500">{link.title}</span>
-        </Link>
+        </NavLink>
       ))}
-      <Link
-        to="/admin/dashboard"
-        className="my-1 flex items-center px-2 bg-gray-200 text-gray-600 rounded-md py-2"
-      >
-        <Icon icon="zap" className="h-6 w-6" />
-        <span className="leading-5 pl-2 text-gray-900">Profile</span>
-      </Link>
     </nav>
   );
 };
