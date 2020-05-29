@@ -1,11 +1,10 @@
-import React from "react";
-import { connect } from "react-redux";
-import { openModal } from "@actions/modal";
+import React, { useContext } from "react";
+import Icon from "@components/icon";
+import { Link } from "react-router-dom";
+import { ModalProvider } from "@/app";
 
-const UserTable = ({ openModal, users }) => {
-  const handleDelete = (type, modalProps) => {
-    openModal(type, modalProps);
-  };
+const UserTable = ({ users }) => {
+  const { dispatch } = useContext(ModalProvider);
 
   return (
     <div className="my-8 shadow overflow-hidden sm:rounded-lg">
@@ -41,9 +40,13 @@ const UserTable = ({ openModal, users }) => {
                       />
                     </div>
                     <div className="ml-4">
-                      <div className="text-sm leading-5 font-medium text-gray-900">
+                      <Link
+                        to=""
+                        className="flex items-center text-sm leading-5 text-gray-900 font-medium hover:text-gray-600"
+                      >
                         {user.fullName}
-                      </div>
+                        <Icon icon="link" className="h-5 w-5 text-gray-500 pl-1" />
+                      </Link>
                     </div>
                   </div>
                 </td>
@@ -59,11 +62,15 @@ const UserTable = ({ openModal, users }) => {
                 <td className="space-x-2 px-6 py-4 whitespace-no-wrap text-right text-sm leading-5 font-medium">
                   <button
                     onClick={() =>
-                      handleDelete("DELETE_USER", {
-                        id: user.id,
-                        title: `Delete ${user.fullName}`,
-                        content:
-                          "Are you sure you want to delete this user? Once you click on delete, there's no going back."
+                      dispatch({
+                        type: "OPEN_MODAL",
+                        modalType: "DELETE_USER",
+                        modalProps: {
+                          id: user.id,
+                          title: `Delete ${user.fullName}`,
+                          content:
+                            "Are you sure you want to delete this user? Once you click on delete, there's no going back."
+                        }
                       })
                     }
                     className={`${user.admin &&
@@ -84,13 +91,4 @@ const UserTable = ({ openModal, users }) => {
   );
 };
 
-const mapDispatchToProps = dispatch => {
-  return {
-    openModal: (modalType, modalProps) => dispatch(openModal(modalType, modalProps))
-  };
-};
-
-export default connect(
-  null,
-  mapDispatchToProps
-)(UserTable);
+export default UserTable;

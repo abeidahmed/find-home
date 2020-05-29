@@ -11,6 +11,21 @@ const FilterButton = () => {
 
   const query = useAddQuery();
 
+  const filterButtons = [
+    {
+      queryParam: "",
+      title: "All users"
+    },
+    {
+      queryParam: "admin",
+      title: "Admins"
+    },
+    {
+      queryParam: "user",
+      title: "Users"
+    }
+  ];
+
   return (
     <span ref={ref} className="relative shadow-sm rounded-md">
       <button
@@ -31,39 +46,20 @@ const FilterButton = () => {
         role="menu"
       >
         <div className="py-1 rounded-md bg-white shadow-xs">
-          <button
-            type="button"
-            onClick={() => {
-              query("user_role", "");
-              setFilterName("All users");
-            }}
-            className="block w-full text-left px-4 py-2 text-sm leading-5 text-gray-700 hover:bg-gray-100 focus:outline-none focus:bg-gray-100 transition duration-150 ease-in-out"
-            role="menuitem"
-          >
-            All
-          </button>
-          <button
-            type="button"
-            onClick={() => {
-              query("user_role", "admin");
-              setFilterName("Admins");
-            }}
-            className="block w-full text-left px-4 py-2 text-sm leading-5 text-gray-700 hover:bg-gray-100 focus:outline-none focus:bg-gray-100 transition duration-150 ease-in-out"
-            role="menuitem"
-          >
-            Admin
-          </button>
-          <button
-            type="button"
-            onClick={() => {
-              query("user_role", "user");
-              setFilterName("Users");
-            }}
-            className="block w-full text-left px-4 py-2 text-sm leading-5 text-gray-700 hover:bg-gray-100 focus:outline-none focus:bg-gray-100 transition duration-150 ease-in-out"
-            role="menuitem"
-          >
-            Users
-          </button>
+          {filterButtons.map(button => (
+            <button
+              key={button.title}
+              type="button"
+              onClick={() => {
+                query("user_role", button.queryParam);
+                setFilterName(button.title);
+              }}
+              className="block w-full text-left px-4 py-2 text-sm leading-5 text-gray-700 hover:bg-gray-100 focus:outline-none focus:bg-gray-100 transition duration-150 ease-in-out"
+              role="menuitem"
+            >
+              {button.title}
+            </button>
+          ))}
         </div>
       </div>
     </span>

@@ -1,29 +1,30 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { AdminLayout } from "@components/layout";
-import { connect } from "react-redux";
-import { fetchAllUsers } from "@api/user/user-list";
+import { fetchUsersApi } from "@api/user/user-list";
 import FilterButton from "./components/filter-button";
 import Pagination from "./components/pagination";
 import queryString from "query-string";
 import { SearchField } from "@components/search";
+import { Spinner } from "@components/spinner";
 import UserTable from "./components/user-table";
 import { useAddQuery } from "@utils/add-query";
+import { usePaginatedQuery } from "react-query";
 
-const UserList = ({ location, fetchUsers, modalType, users }) => {
-  const [searchValue, setSearchValue] = useState("");
-  const query = useAddQuery();
-
+const UserList = ({ location }) => {
   let queryParam = queryString.parse(location.search);
-  let userRoleParam = queryParam.user_role;
+  let userRole = queryParam.user_role;
   let pageNumber = queryParam.page;
   let searchTerm = queryParam.search;
 
-  useEffect(() => {
-    const fetchAllUsers = () => {
-      fetchUsers(queryParam);
-    };
-    fetchAllUsers();
-  }, [fetchUsers, userRoleParam, pageNumber, searchTerm, modalType]);
+  const [searchValue, setSearchValue] = useState("");
+  const query = useAddQuery();
+
+  const { status, resolvedData, error } = usePaginatedQuery(
+    ["userList", pageNumber, searchTerm, userRole],
+    fetchUsersApi
+  );
+
+  if (status === "loading" || status === "error") return <Spinner />;
 
   return (
     <AdminLayout>
@@ -47,27 +48,10 @@ const UserList = ({ location, fetchUsers, modalType, users }) => {
           <FilterButton />
         </div>
       </div>
-      <UserTable users={users} />
-      <Pagination />
+      <UserTable users={resolvedData.data.users} />
+      <Pagination pageInfo={resolvedData.data.pageInfo} />
     </AdminLayout>
   );
 };
 
-const mapStateToProps = state => {
-  const { users } = state.userList;
-  return {
-    users,
-    modalType: state.modal.modalType
-  };
-};
-
-const mapDispatchToProps = dispatch => {
-  return {
-    fetchUsers: param => dispatch(fetchAllUsers(param))
-  };
-};
-
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(UserList);
+export default UserList;

@@ -1,9 +1,7 @@
 import React, { useContext } from "react";
-import { connect } from "react-redux";
 import Icon from "@components/icon";
 import { Link } from "react-router-dom";
 import { ModalProvider } from "@/app";
-// import { openModal } from "@actions/modal";
 
 const CategoryTable = ({ categories }) => {
   const { dispatch } = useContext(ModalProvider);
@@ -82,14 +80,3 @@ const CategoryTable = ({ categories }) => {
 };
 
 export default CategoryTable;
-
-// const mapDispatchToProps = dispatch => {
-//   return {
-//     openModal: (modalType, modalProps) => dispatch(openModal(modalType, modalProps))
-//   };
-// };
-
-// export default connect(
-//   null,
-//   mapDispatchToProps
-// )(CategoryTable);
