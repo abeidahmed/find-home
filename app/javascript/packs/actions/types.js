@@ -6,10 +6,6 @@ export const LOGOUT_USER = "LOGOUT_USER";
 export const OPEN_SIDEBAR = "OPEN_SIDEBAR";
 export const CLOSE_SIDEBAR = "CLOSE_SIDEBAR";
 
-// user list
-export const FETCH_USERS = "FETCH_USERS";
-export const FETCH_USERS_LOADING = "FETCH_USERS_LOADING";
-
 // modal
 export const OPEN_MODAL = "OPEN_MODAL";
 export const CLOSE_MODAL = "CLOSE_MODAL";

@@ -1,28 +1,19 @@
 import axios from "axios";
 import { authToken } from "@/middleware/auth-token";
-import { fetchUsers, fetchUsersLoading } from "@actions/user-list";
 import queryString from "query-string";
 
-export const fetchAllUsers = param => (dispatch, getState) => {
+export const fetchUsersApi = async (key, page, search, role) => {
   const url = queryString.stringifyUrl(
     {
       url: "/api/v1/users",
       query: {
-        user_role: param.user_role,
-        page: param.page,
-        search: param.search
+        page,
+        search,
+        user_role: role
       }
     },
     { skipEmptyString: true }
   );
 
-  axios
-    .get(url, authToken(getState))
-    .then(res => {
-      dispatch(fetchUsersLoading());
-      dispatch(fetchUsers(res.data.users, res.data.pageInfo));
-    })
-    .catch(err => {
-      throw new Error(err);
-    });
+  return await axios.get(url, authToken());
 };

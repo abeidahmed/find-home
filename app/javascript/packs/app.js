@@ -1,9 +1,9 @@
 import React, { useEffect } from "react";
 import ReactDOM from "react-dom";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
+import { fetchCurrentUser } from "@/api/user/current-user";
 import { Provider } from "react-redux";
 import { store } from "@/store";
-import { fetchCurrentUser } from "@/api/user/current-user";
 import AdminRoute from "@admin/routes/admin-route";
 import PublicRoute from "@/routes/public-route";
 import ModalRoot from "@components/modal/modal-root";

@@ -1,29 +1,31 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { AdminLayout } from "@components/layout";
 import CategoryTable from "./components/category-table";
 import { connect } from "react-redux";
-import { fetchAllCategories } from "@api/category/category-list";
+import { fetchCategoriesApi } from "@api/category/category-list";
 import Icon from "@components/icon";
 import { openModal } from "@actions/modal";
 import Pagination from "./components/pagination";
 import queryString from "query-string";
 import { SearchField } from "@components/search";
+import { Spinner } from "@components/spinner";
 import { useAddQuery } from "@utils/add-query";
+import { usePaginatedQuery } from "react-query";
 
-const CategoryList = ({ categories, fetchCategories, location, openModal, modalType }) => {
-  const [searchValue, setSearchValue] = useState("");
-  const query = useAddQuery();
-
+const CategoryList = ({ location, openModal }) => {
   let queryParam = queryString.parse(location.search);
   let pageNumber = queryParam.page;
   let searchTerm = queryParam.search;
 
-  useEffect(() => {
-    const fetchAllCategories = () => {
-      fetchCategories(queryParam);
-    };
-    fetchAllCategories();
-  }, [fetchCategories, pageNumber, modalType, searchTerm]);
+  const [searchValue, setSearchValue] = useState("");
+  const query = useAddQuery();
+
+  const { status, resolvedData, error } = usePaginatedQuery(
+    ["categoryList", pageNumber, searchTerm],
+    fetchCategoriesApi
+  );
+
+  if (status === "loading" || status === "error") return <Spinner />;
 
   return (
     <AdminLayout>
@@ -58,29 +60,19 @@ const CategoryList = ({ categories, fetchCategories, location, openModal, modalT
           </button>
         </div>
       </div>
-      <CategoryTable categories={categories} />
-      <Pagination />
+      <CategoryTable categories={resolvedData.data.categories} />
+      <Pagination pageInfo={resolvedData.data.pageInfo} />
     </AdminLayout>
   );
 };
 
-const mapStateToProps = state => {
-  const { categories } = state.categoryList;
-  const { modalType } = state.modal;
-  return {
-    categories,
-    modalType
-  };
-};
-
 const mapDispatchToProps = dispatch => {
   return {
-    fetchCategories: param => dispatch(fetchAllCategories(param)),
     openModal: (modalType, modalProps) => dispatch(openModal(modalType, modalProps))
   };
 };
 
 export default connect(
-  mapStateToProps,
+  null,
   mapDispatchToProps
 )(CategoryList);

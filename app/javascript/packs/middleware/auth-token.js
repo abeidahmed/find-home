@@ -1,5 +1,5 @@
-export const authToken = getState => {
-  const token = getState().currentUser.token;
+export const authToken = () => {
+  const token = localStorage.getItem("token");
 
   const config = {
     headers: {

@@ -1,17 +1,25 @@
-import React, { useState } from "react";
+import React from "react";
 import { closeModal } from "@actions/modal";
 import { connect } from "react-redux";
-import { DeleteModal } from "@components/modal/types/delete-modal.js";
-import { deleteUser } from "@api/user/delete-user";
+import { deleteUserApi } from "@api/user/delete-user";
+import { DeleteModal } from "@components/modal/types/delete-modal";
+import { useMutation, queryCache } from "react-query";
 
-const DeleteUser = ({ title, content, closeModal, deleteUser, modalType }) => {
-  const [isLoading, setIsLoading] = useState(false);
+const DeleteUser = ({ id, title, content, modalType, closeModal }) => {
+  const [mutate, { status }] = useMutation(deleteUserApi, {
+    onSuccess: () => {
+      queryCache.refetchQueries("userList");
+    },
+    throwOnError: true
+  });
 
-  const handleDelete = () => {
-    setIsLoading(true);
-    deleteUser();
-    setIsLoading(false);
-    closeModal();
+  const handleDelete = async () => {
+    try {
+      await mutate({ id });
+      closeModal();
+    } catch (err) {
+      console.log(err);
+    }
   };
 
   return (
@@ -19,7 +27,7 @@ const DeleteUser = ({ title, content, closeModal, deleteUser, modalType }) => {
       isActive={modalType === "DELETE_USER"}
       handleClose={closeModal}
       handleDelete={handleDelete}
-      loading={isLoading}
+      loading={status === "loading"}
       title={title}
       description={content}
     />
@@ -27,9 +35,10 @@ const DeleteUser = ({ title, content, closeModal, deleteUser, modalType }) => {
 };
 
 const mapStateToProps = state => {
-  const { title, content } = state.modal.modalProps;
+  const { id, title, content } = state.modal.modalProps;
   return {
     modalType: state.modal.modalType,
+    id,
     title,
     content
   };
@@ -37,7 +46,6 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
   return {
-    deleteUser: () => dispatch(deleteUser()),
     closeModal: () => dispatch(closeModal())
   };
 };

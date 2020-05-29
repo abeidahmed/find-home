@@ -1,17 +1,25 @@
-import React, { useState } from "react";
+import React from "react";
 import { closeModal } from "@actions/modal";
 import { connect } from "react-redux";
+import { deleteCategoryApi } from "@api/category/delete-category";
 import { DeleteModal } from "@components/modal/types/delete-modal";
-import { deleteCategory } from "@api/category/delete-category";
+import { useMutation, queryCache } from "react-query";
 
-const DeleteCategory = ({ title, content, closeModal, delCategory, modalType }) => {
-  const [isLoading, setIsLoading] = useState(false);
+const DeleteCategory = ({ id, title, content, closeModal, modalType }) => {
+  const [mutate, { status }] = useMutation(deleteCategoryApi, {
+    onSuccess: () => {
+      queryCache.refetchQueries("categoryList");
+    },
+    throwOnError: true
+  });
 
-  const handleDelete = () => {
-    setIsLoading(true);
-    delCategory();
-    setIsLoading(false);
-    closeModal();
+  const handleDelete = async () => {
+    try {
+      await mutate({ id });
+      closeModal();
+    } catch (err) {
+      console.log(err);
+    }
   };
 
   return (
@@ -19,7 +27,7 @@ const DeleteCategory = ({ title, content, closeModal, delCategory, modalType }) 
       isActive={modalType === "DELETE_CATEGORY"}
       handleClose={closeModal}
       handleDelete={handleDelete}
-      loading={isLoading}
+      loading={status === "loading"}
       title={title}
       description={content}
     />
@@ -27,9 +35,10 @@ const DeleteCategory = ({ title, content, closeModal, delCategory, modalType }) 
 };
 
 const mapStateToProps = state => {
-  const { title, content } = state.modal.modalProps;
+  const { id, title, content } = state.modal.modalProps;
   return {
     modalType: state.modal.modalType,
+    id,
     title,
     content
   };
@@ -37,7 +46,6 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
   return {
-    delCategory: () => dispatch(deleteCategory()),
     closeModal: () => dispatch(closeModal())
   };
 };

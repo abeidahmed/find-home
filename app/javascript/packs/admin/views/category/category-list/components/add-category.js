@@ -1,26 +1,37 @@
-import React, { useState } from "react";
-import { addCategoryLoading } from "@actions/category-list";
-import { addCategoryToList } from "@api/category/add-category";
+import React, { useState, useContext } from "react";
+import { addCategoryApi } from "@api/category/add-category";
 import { closeModal } from "@actions/modal";
 import { connect } from "react-redux";
 import { InputField, TextField } from "@components/field";
 import { ModalTop, ModalBottom, ModalWrapper } from "@components/modal";
+import { useMutation, queryCache } from "react-query";
 
-const AddCategory = ({
-  addCategoryToList,
-  closeModal,
-  error,
-  modalType,
-  isLoading,
-  setLoading
-}) => {
+const AddCategory = ({ modalType, closeModal }) => {
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
+  const [error, setError] = useState([]);
 
-  const isActive = modalType === "ADD_CATEGORY";
+  const [mutate, { status }] = useMutation(addCategoryApi, {
+    onSuccess: () => {
+      queryCache.refetchQueries("categoryList");
+      closeModal();
+    },
+    throwOnError: true
+  });
+
+  const handleSubmit = async () => {
+    try {
+      await mutate({
+        title,
+        description
+      });
+    } catch (err) {
+      setError(err.response.data);
+    }
+  };
 
   return (
-    <ModalWrapper isActive={isActive} onOutsideClick={closeModal}>
+    <ModalWrapper isActive={modalType === "ADD_CATEGORY"} onOutsideClick={closeModal}>
       <ModalTop>
         <div className="mt-3 text-center sm:mt-0 sm:text-left">
           <h3 className="text-lg leading-6 font-medium text-gray-900">Add category</h3>
@@ -53,14 +64,11 @@ const AddCategory = ({
         <span className="flex w-full rounded-md shadow-sm sm:ml-3 sm:w-auto">
           <button
             type="button"
-            disabled={isLoading}
-            onClick={() => {
-              addCategoryToList(title, description);
-              setLoading(true);
-            }}
+            disabled={status === "loading"}
+            onClick={handleSubmit}
             className="inline-flex justify-center w-full rounded-md border border-transparent px-4 py-2 bg-indigo-600 text-base leading-6 font-medium text-white shadow-sm hover:bg-indigo-500 focus:outline-none focus:border-indigo-700 focus:shadow-outline-indigo transition ease-in-out duration-150 sm:text-sm sm:leading-5"
           >
-            {isLoading ? "Adding..." : "Add category"}
+            {status === "loading" ? "Adding..." : "Add category"}
           </button>
         </span>
         <span className="mt-3 flex w-full rounded-md shadow-sm sm:mt-0 sm:w-auto">
@@ -78,18 +86,13 @@ const AddCategory = ({
 };
 
 const mapStateToProps = state => {
-  const { error, loadWhileAdd } = state.categoryList;
   return {
-    modalType: state.modal.modalType,
-    error,
-    isLoading: loadWhileAdd
+    modalType: state.modal.modalType
   };
 };
 
 const mapDispatchToProps = dispatch => {
   return {
-    setLoading: bool => dispatch(addCategoryLoading(bool)),
-    addCategoryToList: (title, description) => dispatch(addCategoryToList(title, description)),
     closeModal: () => dispatch(closeModal())
   };
 };
