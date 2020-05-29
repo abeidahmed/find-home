@@ -13,8 +13,3 @@ export const FETCH_USERS_LOADING = "FETCH_USERS_LOADING";
 // modal
 export const OPEN_MODAL = "OPEN_MODAL";
 export const CLOSE_MODAL = "CLOSE_MODAL";
-
-// category list
-export const FETCH_CATEGORIES = "FETCH_CATEGORIES";
-export const ADD_CATEGORY_ERROR = "ADD_CATEGORY_ERROR";
-export const ADD_CATEGORY_LOADING = "ADD_CATEGORY_LOADING";

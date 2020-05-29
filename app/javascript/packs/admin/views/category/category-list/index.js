@@ -1,18 +1,17 @@
 import React, { useState, useContext } from "react";
 import { AdminLayout } from "@components/layout";
-import axios from "axios";
 import CategoryTable from "./components/category-table";
+import { fetchCategoriesApi } from "@api/category/category-list";
 import Icon from "@components/icon";
-import { openModal } from "@actions/modal";
+import { ModalProvider } from "@/app";
 import Pagination from "./components/pagination";
 import queryString from "query-string";
 import { SearchField } from "@components/search";
 import { Spinner } from "@components/spinner";
 import { useAddQuery } from "@utils/add-query";
 import { usePaginatedQuery } from "react-query";
-import { ModalProvider } from "@/app";
 
-const CategoryList = ({ location, openModal }) => {
+const CategoryList = ({ location }) => {
   const { dispatch } = useContext(ModalProvider);
 
   let queryParam = queryString.parse(location.search);
@@ -23,24 +22,9 @@ const CategoryList = ({ location, openModal }) => {
   const [page, setPage] = useState(pageNumber);
   const query = useAddQuery();
 
-  const fetchCategories = async (key, page, search) => {
-    const url = queryString.stringifyUrl(
-      {
-        url: "/api/v1/categories",
-        query: {
-          page,
-          search
-        }
-      },
-      { skipEmptyString: true }
-    );
-
-    return await axios.get(url);
-  };
-
   const { status, resolvedData, error } = usePaginatedQuery(
     ["categoryList", page, searchTerm],
-    fetchCategories
+    fetchCategoriesApi
   );
 
   if (status === "loading" || status === "error") return <Spinner />;
