@@ -1,29 +1,46 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { AdminLayout } from "@components/layout";
+import axios from "axios";
 import CategoryTable from "./components/category-table";
-import { connect } from "react-redux";
-import { fetchAllCategories } from "@api/category/category-list";
 import Icon from "@components/icon";
 import { openModal } from "@actions/modal";
 import Pagination from "./components/pagination";
 import queryString from "query-string";
 import { SearchField } from "@components/search";
+import { Spinner } from "@components/spinner";
 import { useAddQuery } from "@utils/add-query";
+import { usePaginatedQuery } from "react-query";
 
-const CategoryList = ({ categories, fetchCategories, location, openModal, modalType }) => {
-  const [searchValue, setSearchValue] = useState("");
-  const query = useAddQuery();
-
+const CategoryList = ({ location, openModal }) => {
   let queryParam = queryString.parse(location.search);
   let pageNumber = queryParam.page;
   let searchTerm = queryParam.search;
 
-  useEffect(() => {
-    const fetchAllCategories = () => {
-      fetchCategories(queryParam);
-    };
-    fetchAllCategories();
-  }, [fetchCategories, pageNumber, modalType, searchTerm]);
+  const [searchValue, setSearchValue] = useState(searchTerm);
+  const [page, setPage] = useState(pageNumber);
+  const query = useAddQuery();
+
+  const fetchCategories = async (key, page, search) => {
+    const url = queryString.stringifyUrl(
+      {
+        url: "/api/v1/categories",
+        query: {
+          page,
+          search
+        }
+      },
+      { skipEmptyString: true }
+    );
+
+    return await axios.get(url);
+  };
+
+  const { status, resolvedData, error } = usePaginatedQuery(
+    ["categoryList", page, searchTerm],
+    fetchCategories
+  );
+
+  if (status === "loading" || status === "error") return <Spinner />;
 
   return (
     <AdminLayout>
@@ -58,29 +75,10 @@ const CategoryList = ({ categories, fetchCategories, location, openModal, modalT
           </button>
         </div>
       </div>
-      <CategoryTable categories={categories} />
-      <Pagination />
+      <CategoryTable categories={resolvedData.data.categories} />
+      <Pagination pageInfo={resolvedData.data.pageInfo} setPage={setPage} />
     </AdminLayout>
   );
 };
 
-const mapStateToProps = state => {
-  const { categories } = state.categoryList;
-  const { modalType } = state.modal;
-  return {
-    categories,
-    modalType
-  };
-};
-
-const mapDispatchToProps = dispatch => {
-  return {
-    fetchCategories: param => dispatch(fetchAllCategories(param)),
-    openModal: (modalType, modalProps) => dispatch(openModal(modalType, modalProps))
-  };
-};
-
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(CategoryList);
+export default CategoryList;
