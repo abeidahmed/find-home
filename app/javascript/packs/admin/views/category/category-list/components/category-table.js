@@ -46,9 +46,18 @@ const CategoryTable = ({ categories, openModal }) => {
               >
                 Delete
               </button>
-              <a href="/" className="text-indigo-600 hover:text-indigo-900">
+              <button
+                onClick={() =>
+                  openModal("EDIT_CATEGORY", {
+                    id: category.id,
+                    title: category.title,
+                    content: category.description
+                  })
+                }
+                className="font-medium text-indigo-600 hover:text-indigo-900"
+              >
                 Edit
-              </a>
+              </button>
             </Td>
           </tr>
         ))}
