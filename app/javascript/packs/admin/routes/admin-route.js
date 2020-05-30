@@ -3,6 +3,7 @@ import { Switch, Route } from "react-router-dom";
 import CategoryList from "@admin/views/category/category-list";
 import Dashboard from "@admin/views/dashboard";
 import Header from "@admin/views/header";
+import PostList from "@admin/views/post/post-list";
 import ShowCategory from "@admin/views/category/show-category";
 import Sidebar from "@admin/views/sidebar";
 import TagList from "@admin/views/tag/tag-list";
@@ -20,6 +21,7 @@ const AdminRoute = ({ match }) => {
           <Route exact path={`${match.path}/categories`} component={CategoryList} />
           <Route path={`${match.path}/categories/:id`} component={ShowCategory} />
           <Route path={`${match.path}/tags`} component={TagList} />
+          <Route path={`${match.path}/posts`} component={PostList} />
         </Switch>
       </div>
     </div>
