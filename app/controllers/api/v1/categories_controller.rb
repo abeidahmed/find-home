@@ -2,7 +2,7 @@ class Api::V1::CategoriesController < ApplicationController
   before_action :check_authorization, except: [:index, :show]
 
   def index
-    @categories = Category.search(params[:search]).paginate(page: params[:page])
+    @categories = Category.search(params[:search]).paginate(page: params[:page], per_page: params[:per_page])
   end
 
   def create

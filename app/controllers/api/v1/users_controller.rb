@@ -2,7 +2,7 @@ class Api::V1::UsersController < ApplicationController
   before_action :check_authorization, except: [:create]
 
   def index
-    @users = User.search(params[:search]).user_role(params[:user_role]).paginate(page: params[:page])
+    @users = User.search(params[:search]).user_role(params[:user_role]).paginate(page: params[:page], per_page: params[:per_page])
   end
 
   def create

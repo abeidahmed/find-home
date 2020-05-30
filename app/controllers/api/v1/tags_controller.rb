@@ -2,7 +2,7 @@ class Api::V1::TagsController < ApplicationController
   before_action :check_authorization, except: [:index, :show]
 
   def index
-    @tags = Tag.search(params[:search]).paginate(page: params[:page])
+    @tags = Tag.search(params[:search]).paginate(page: params[:page], per_page: params[:per_page])
   end
 
   def create

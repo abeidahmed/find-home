@@ -6,8 +6,6 @@ class Category < ApplicationRecord
 
   default_scope -> { order(created_at: :desc) }
 
-  self.per_page = 5
-
   def self.search(search)
     if search.present?
       where("lower(title) LIKE :search", search: "%#{search.downcase}%")
