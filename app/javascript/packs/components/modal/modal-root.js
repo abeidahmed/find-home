@@ -6,6 +6,7 @@ import EditCategory from "@admin/views/category/category-list/components/edit-ca
 import DeleteUser from "@admin/views/user/user-list/components/delete-modal";
 import AddTag from "@admin/views/tag/tag-list/components/add-tag";
 import DeleteTag from "@admin/views/tag/tag-list/components/delete-tag";
+import EditTag from "@admin/views/tag/tag-list/components/edit-tag";
 
 const MODAL_COMPONENTS = {
   ADD_CATEGORY: AddCategory,
@@ -13,7 +14,8 @@ const MODAL_COMPONENTS = {
   EDIT_CATEGORY: EditCategory,
   DELETE_USER: DeleteUser,
   ADD_TAG: AddTag,
-  DELETE_TAG: DeleteTag
+  DELETE_TAG: DeleteTag,
+  EDIT_TAG: EditTag
 };
 
 const ModalRoot = ({ modalType, modalProps }) => {

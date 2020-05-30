@@ -46,9 +46,18 @@ const TagTable = ({ tags, openModal }) => {
               >
                 Delete
               </button>
-              <a href="/" className="text-indigo-600 hover:text-indigo-900">
+              <button
+                onClick={() =>
+                  openModal("EDIT_TAG", {
+                    id: tag.id,
+                    title: tag.title,
+                    content: tag.description
+                  })
+                }
+                className="font-medium text-indigo-600 hover:text-indigo-900"
+              >
                 Edit
-              </a>
+              </button>
             </Td>
           </tr>
         ))}
