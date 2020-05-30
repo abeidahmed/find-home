@@ -5,15 +5,19 @@ import Icon from "@components/icon";
 import { InputField, TextField } from "@components/field";
 import { SearchField } from "@components/search";
 import ToggleButton from "./toggle-button";
-import { useQuery, useMutation, queryCache } from "react-query";
+import { usePaginatedQuery, useMutation, queryCache } from "react-query";
 
 const CategoryOption = ({ handleToggle, menuActive, catId, setCatId }) => {
   const [formActive, setFormActive] = useState(false);
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
   const [error, setError] = useState([]);
+  const [search, setSearch] = useState("");
 
-  const { state, data } = useQuery("categoryListOption", fetchCategoriesApi);
+  const { status: fetchStatus, data } = usePaginatedQuery(
+    ["categoryListOption", 1, search],
+    fetchCategoriesApi
+  );
   const [mutate, { status }] = useMutation(addCategoryApi, {
     onSuccess: () => {
       queryCache.refetchQueries("categoryListOption");
@@ -44,9 +48,15 @@ const CategoryOption = ({ handleToggle, menuActive, catId, setCatId }) => {
           style={{ maxHeight: 250 }}
           className="pt-1 px-1 h-full overflow-y-hidden flex flex-col"
         >
-          <SearchField placeholder="Search categories" />
+          <SearchField
+            placeholder="Search categories"
+            value={search}
+            show={search}
+            clear={() => setSearch("")}
+            onChange={e => setSearch(e.target.value)}
+          />
           <ul className="mt-2 flex-1 overflow-y-auto">
-            {state !== "loading" &&
+            {fetchStatus !== "loading" &&
               data &&
               data.data.categories.map(category => (
                 <button

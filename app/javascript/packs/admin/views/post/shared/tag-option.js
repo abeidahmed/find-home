@@ -6,15 +6,19 @@ import Icon from "@components/icon";
 import { InputField, TextField } from "@components/field";
 import { SearchField } from "@components/search";
 import ToggleButton from "./toggle-button";
-import { useQuery, useMutation, queryCache } from "react-query";
+import { usePaginatedQuery, useMutation, queryCache } from "react-query";
 
 const TagOption = ({ handleToggle, menuActive, tagIds, setTagIds }) => {
   const [formActive, setFormActive] = useState(false);
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
   const [error, setError] = useState([]);
+  const [search, setSearch] = useState("");
 
-  const { status: fetchStatus, data } = useQuery("tagListOption", fetchTagsApi);
+  const { status: fetchStatus, data } = usePaginatedQuery(
+    ["tagListOption", 1, search],
+    fetchTagsApi
+  );
   const [mutate, { status }] = useMutation(addTagApi, {
     onSuccess: () => {
       queryCache.refetchQueries("tagListOption");
@@ -56,7 +60,13 @@ const TagOption = ({ handleToggle, menuActive, tagIds, setTagIds }) => {
           style={{ maxHeight: 250 }}
           className="pt-1 px-1 h-full overflow-y-hidden flex flex-col"
         >
-          <SearchField placeholder="Search tags" />
+          <SearchField
+            placeholder="Search tags"
+            value={search}
+            show={search}
+            clear={() => setSearch("")}
+            onChange={e => setSearch(e.target.value)}
+          />
           <ul className="mt-2 flex-1 overflow-y-auto">
             {fetchStatus !== "loading" &&
               data &&
