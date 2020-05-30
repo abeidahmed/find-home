@@ -21,7 +21,7 @@ const TagList = ({ location, openModal }) => {
   let searchTerm = queryParam.search;
 
   const { status, resolvedData, error } = usePaginatedQuery(
-    ["tagList", pageNumber, searchTerm],
+    ["tagList", pageNumber, searchTerm, 10],
     fetchTagsApi
   );
 

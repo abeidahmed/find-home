@@ -20,7 +20,7 @@ const UserList = ({ location }) => {
   const query = useAddQuery();
 
   const { status, resolvedData, error } = usePaginatedQuery(
-    ["userList", pageNumber, searchTerm, userRole],
+    ["userList", pageNumber, searchTerm, userRole, 10],
     fetchUsersApi
   );
 

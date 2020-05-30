@@ -21,7 +21,7 @@ const CategoryList = ({ location, openModal }) => {
   const query = useAddQuery();
 
   const { status, resolvedData, error } = usePaginatedQuery(
-    ["categoryList", pageNumber, searchTerm],
+    ["categoryList", pageNumber, searchTerm, 10],
     fetchCategoriesApi
   );
 
