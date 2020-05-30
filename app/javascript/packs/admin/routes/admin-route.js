@@ -1,5 +1,6 @@
 import React from "react";
 import { Switch, Route } from "react-router-dom";
+import AddPost from "@admin/views/post/add-post";
 import CategoryList from "@admin/views/category/category-list";
 import Dashboard from "@admin/views/dashboard";
 import Header from "@admin/views/header";
@@ -21,7 +22,8 @@ const AdminRoute = ({ match }) => {
           <Route exact path={`${match.path}/categories`} component={CategoryList} />
           <Route path={`${match.path}/categories/:id`} component={ShowCategory} />
           <Route path={`${match.path}/tags`} component={TagList} />
-          <Route path={`${match.path}/posts`} component={PostList} />
+          <Route exact path={`${match.path}/posts`} component={PostList} />
+          <Route path={`${match.path}/posts/add`} component={AddPost} />
         </Switch>
       </div>
     </div>
