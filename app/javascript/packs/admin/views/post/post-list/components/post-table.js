@@ -1,9 +1,8 @@
 import React from "react";
-import Icon from "@components/icon";
 import { Link } from "react-router-dom";
 import { TableWrapper, Th, Td } from "@components/table";
 
-const PostTable = () => {
+const PostTable = ({ posts }) => {
   return (
     <TableWrapper>
       <thead>
@@ -17,25 +16,44 @@ const PostTable = () => {
         </tr>
       </thead>
       <tbody className="bg-white">
-        <tr className="border-b border-gray-200">
-          <Td>
-            <Link
-              to=""
-              className="flex items-center text-sm leading-5 text-gray-900 font-medium hover:text-gray-600"
-            >
-              Post 1
-              <Icon icon="link" className="h-5 w-5 text-gray-500 pl-1" />
-            </Link>
-          </Td>
-          <Td>Post author</Td>
-          <Td>Post category</Td>
-          <Td>Post tags</Td>
-          <Td>Post creation date</Td>
-          <Td textRight>
-            <button className="font-medium text-red-600 hover:text-red-900">Delete</button>
-            <button className="font-medium text-indigo-600 hover:text-indigo-900">Edit</button>
-          </Td>
-        </tr>
+        {posts.map(post => (
+          <tr key={post.id} className="border-b border-gray-200">
+            <Td>
+              <Link to="" className="text-blue-600 font-medium hover:text-blue-800">
+                {post.title}
+              </Link>
+            </Td>
+            <Td>
+              <Link to="" className="text-blue-600 hover:text-blue-800">
+                {post.author}
+              </Link>
+            </Td>
+            <Td>
+              <Link
+                to={`/admin/categories/${post.categoryId}`}
+                className="text-blue-600 hover:text-blue-800"
+              >
+                {post.category}
+              </Link>
+            </Td>
+            <Td>
+              {post.tags.map(tag => (
+                <Link
+                  key={tag.id}
+                  to={`/admin/tags/${tag.id}`}
+                  className="comma-separate text-blue-600 hover:text-blue-800"
+                >
+                  {tag.title}
+                </Link>
+              ))}
+            </Td>
+            <Td>{post.createdAt}</Td>
+            <Td textRight>
+              <button className="font-medium text-red-600 hover:text-red-900">Delete</button>
+              <button className="font-medium text-indigo-600 hover:text-indigo-900">Edit</button>
+            </Td>
+          </tr>
+        ))}
       </tbody>
     </TableWrapper>
   );

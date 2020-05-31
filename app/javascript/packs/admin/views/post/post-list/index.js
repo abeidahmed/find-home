@@ -1,16 +1,48 @@
-import React from "react";
+import React, { useState } from "react";
 import { AdminLayout } from "@components/layout";
+import { fetchPostsApi } from "@api/post/post-list";
 import Icon from "@components/icon";
 import { Link } from "react-router-dom";
+import Pagination from "./components/pagination";
 import PostTable from "./components/post-table";
+import queryString from "query-string";
 import { SearchField } from "@components/search";
+import { Spinner } from "@components/spinner";
+import { useAddQuery } from "@utils/add-query";
+import { usePaginatedQuery } from "react-query";
 
-const PostList = ({ match }) => {
+const PostList = ({ match, location }) => {
+  let queryParam = queryString.parse(location.search);
+  let pageNumber = queryParam.page;
+  let searchTerm = queryParam.search;
+
+  const [searchValue, setSearchValue] = useState(searchTerm);
+  const query = useAddQuery();
+
+  const { status, resolvedData, error } = usePaginatedQuery(
+    ["categoryList", pageNumber, searchTerm, 10],
+    fetchPostsApi
+  );
+
+  if (status === "loading" || status === "error") return <Spinner />;
+
   return (
     <AdminLayout>
       <div className="flex items-center justify-between space-x-4">
         <div className="max-w-md flex-1">
-          <SearchField placeholder="Search posts by title" />
+          <SearchField
+            placeholder="Search posts by title"
+            show={searchValue}
+            clear={() => {
+              setSearchValue("");
+              query("search", "");
+            }}
+            value={searchValue}
+            onChange={e => {
+              setSearchValue(e.target.value);
+              query("search", e.target.value);
+            }}
+          />
         </div>
         <div>
           <Link
@@ -27,7 +59,8 @@ const PostList = ({ match }) => {
           </Link>
         </div>
       </div>
-      <PostTable />
+      <PostTable posts={resolvedData.data.posts} />
+      <Pagination pageInfo={resolvedData.data.pageInfo} />
     </AdminLayout>
   );
 };
