@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { addPostApi } from "@api/post/add-post";
 import CategoryOption from "../shared/category-option";
 import CustomInput from "../shared/custom-input";
 import CustomTextarea from "../shared/custom-textarea";
@@ -8,6 +9,7 @@ import Icon from "@components/icon";
 import SettingsButton from "../shared/settings-button";
 import SettingsContainer from "../shared/settings-container";
 import TagOption from "../shared/tag-option";
+import { useMutation } from "react-query";
 
 const AddPost = () => {
   const [settingsActive, setSettingsActive] = useState(true);
@@ -18,6 +20,24 @@ const AddPost = () => {
   const [categoryId, setCategoryId] = useState("");
   const [tagIds, setTagIds] = useState([]);
   const [excerpt, setExcerpt] = useState("");
+
+  const [mutate, { status }] = useMutation(addPostApi, {
+    throwOnError: true
+  });
+
+  const handleSubmit = async () => {
+    try {
+      await mutate({
+        title,
+        content,
+        excerpt,
+        categoryId,
+        tagIds
+      });
+    } catch (err) {
+      console.log(err.response.data);
+    }
+  };
 
   const handleToggle = menu => () => {
     setMenuActive(prevState => {
@@ -31,14 +51,18 @@ const AddPost = () => {
     <>
       <section className="px-6 h-16 flex items-center justify-end border-b border-gray-200">
         <div className="space-x-4 flex items-center">
-          <button className="group flex justify-center py-2 px-4 border border-transparent text-sm leading-5 font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-500 focus:outline-none focus:border-indigo-700 focus:shadow-outline-indigo active:bg-indigo-700 transition duration-150 ease-in-out">
+          <button
+            disabled={status === "loading" || title.length === 0 || content.length === 0}
+            onClick={handleSubmit}
+            className="group flex justify-center py-2 px-4 border border-transparent text-sm leading-5 font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-500 focus:outline-none focus:border-indigo-700 focus:shadow-outline-indigo active:bg-indigo-700 transition duration-150 ease-in-out"
+          >
             <span className="-ml-1 pr-1">
               <Icon
                 icon="check"
                 className="h-5 w-5 text-gray-200 group-hover:text-white transition ease-in-out duration-150"
               />
             </span>
-            Publish
+            {status === "loading" ? "Publishing" : "Publish"}
           </button>
           <SettingsButton
             handleToggle={() => setSettingsActive(!settingsActive)}
