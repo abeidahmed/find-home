@@ -20,7 +20,7 @@ const PostList = ({ match, location }) => {
   const query = useAddQuery();
 
   const { status, resolvedData, error } = usePaginatedQuery(
-    ["categoryList", pageNumber, searchTerm, 10],
+    ["postList", pageNumber, searchTerm, 10],
     fetchPostsApi
   );
 
