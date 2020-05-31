@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import { TableWrapper, Th, Td } from "@components/table";
 
 const PostTable = ({ posts }) => {
+  console.log(posts);
   return (
     <TableWrapper>
       <thead>
@@ -24,16 +25,19 @@ const PostTable = ({ posts }) => {
               </Link>
             </Td>
             <Td>
-              <Link to="" className="text-blue-600 hover:text-blue-800">
-                {post.author}
+              <Link
+                to={`/admin/users/${post.author.id}`}
+                className="text-blue-600 hover:text-blue-800"
+              >
+                {post.author.fullName}
               </Link>
             </Td>
             <Td>
               <Link
-                to={`/admin/categories/${post.categoryId}`}
+                to={`/admin/categories/${post.category.id}`}
                 className="text-blue-600 hover:text-blue-800"
               >
-                {post.category}
+                {post.category.title}
               </Link>
             </Td>
             <Td>
