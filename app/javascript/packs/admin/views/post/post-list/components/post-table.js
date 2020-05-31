@@ -53,7 +53,12 @@ const PostTable = ({ posts }) => {
             <Td>{post.createdAt}</Td>
             <Td textRight>
               <button className="font-medium text-red-600 hover:text-red-900">Delete</button>
-              <button className="font-medium text-indigo-600 hover:text-indigo-900">Edit</button>
+              <Link
+                to={`/admin/posts/${post.id}/edit`}
+                className="font-medium text-indigo-600 hover:text-indigo-900"
+              >
+                Edit
+              </Link>
             </Td>
           </tr>
         ))}
