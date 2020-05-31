@@ -26,4 +26,8 @@ button[disabled] {
   pointer-events: none;
 }
 
+.comma-separate:not(:last-of-type):after {
+  content: ", ";
+}
+
 @import "tailwindcss/utilities";
