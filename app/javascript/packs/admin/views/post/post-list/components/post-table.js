@@ -3,7 +3,6 @@ import { Link } from "react-router-dom";
 import { TableWrapper, Th, Td } from "@components/table";
 
 const PostTable = ({ posts }) => {
-  console.log(posts);
   return (
     <TableWrapper>
       <thead>
