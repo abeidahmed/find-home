@@ -1,6 +1,5 @@
 import React, { useContext } from "react";
 import { connect } from "react-redux";
-import Icon from "@components/icon";
 import { Link } from "react-router-dom";
 import { openModal } from "@actions/modal";
 import { TableWrapper, Th, Td } from "@components/table";
@@ -26,12 +25,8 @@ const UserTable = ({ users, openModal }) => {
                   <img className="h-10 w-10 rounded-full" src={user.avatar} alt={user.fullName} />
                 </div>
                 <div className="ml-4">
-                  <Link
-                    to=""
-                    className="flex items-center text-sm leading-5 text-gray-900 font-medium hover:text-gray-600"
-                  >
+                  <Link to="" className="text-sm text-blue-600 font-medium hover:text-blue-800">
                     {user.fullName}
-                    <Icon icon="link" className="h-5 w-5 text-gray-500 pl-1" />
                   </Link>
                 </div>
               </div>
