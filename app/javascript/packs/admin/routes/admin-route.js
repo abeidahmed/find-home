@@ -3,6 +3,7 @@ import { Switch, Route } from "react-router-dom";
 import AddPost from "@admin/views/post/add-post";
 import CategoryList from "@admin/views/category/category-list";
 import Dashboard from "@admin/views/dashboard";
+import EditPost from "@admin/views/post/edit-post";
 import Header from "@admin/views/header";
 import PostList from "@admin/views/post/post-list";
 import ShowCategory from "@admin/views/category/show-category";
@@ -24,6 +25,7 @@ const AdminRoute = ({ match }) => {
           <Route path={`${match.path}/tags`} component={TagList} />
           <Route exact path={`${match.path}/posts`} component={PostList} />
           <Route path={`${match.path}/posts/add`} component={AddPost} />
+          <Route path={`${match.path}/posts/:id/edit`} component={EditPost} />
         </Switch>
       </div>
     </div>
