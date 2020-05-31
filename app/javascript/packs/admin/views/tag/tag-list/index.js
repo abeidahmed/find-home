@@ -13,12 +13,12 @@ import { useAddQuery } from "@utils/add-query";
 import { usePaginatedQuery } from "react-query";
 
 const TagList = ({ location, openModal }) => {
-  const [searchValue, setSearchValue] = useState("");
-  const query = useAddQuery();
-
   let queryParam = queryString.parse(location.search);
   let pageNumber = queryParam.page;
   let searchTerm = queryParam.search;
+
+  const [searchValue, setSearchValue] = useState(searchTerm);
+  const query = useAddQuery();
 
   const { status, resolvedData, error } = usePaginatedQuery(
     ["tagList", pageNumber, searchTerm, 10],

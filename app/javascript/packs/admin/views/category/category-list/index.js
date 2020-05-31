@@ -17,7 +17,7 @@ const CategoryList = ({ location, openModal }) => {
   let pageNumber = queryParam.page;
   let searchTerm = queryParam.search;
 
-  const [searchValue, setSearchValue] = useState("");
+  const [searchValue, setSearchValue] = useState(searchTerm);
   const query = useAddQuery();
 
   const { status, resolvedData, error } = usePaginatedQuery(
