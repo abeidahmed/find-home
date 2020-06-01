@@ -37,7 +37,8 @@ const TagTable = ({ tags, openModal }) => {
                     id: tag.id,
                     title: `Delete ${tag.title}`,
                     content:
-                      "Are you sure you want to delete this tag? Once you click on delete, there's no going back."
+                      "Are you sure you want to delete this tag? Once you click on delete, there's no going back.",
+                    refetch: "tagList"
                   })
                 }
                 className="font-medium text-red-600 hover:text-red-900"

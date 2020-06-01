@@ -6,7 +6,7 @@ import EditCategory from "@admin/views/category/shared/edit-category";
 import DeleteUser from "@admin/views/user/user-list/components/delete-modal";
 import AddTag from "@admin/views/tag/tag-list/components/add-tag";
 import DeleteTag from "@admin/views/tag/tag-list/components/delete-tag";
-import EditTag from "@admin/views/tag/tag-list/components/edit-tag";
+import EditTag from "@admin/views/tag/shared/edit-tag";
 
 const MODAL_COMPONENTS = {
   ADD_CATEGORY: AddCategory,
