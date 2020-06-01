@@ -8,7 +8,6 @@ import queryString from "query-string";
 import { SearchField } from "@components/search";
 import { showCategoryApi } from "@api/category/show-category";
 import { Spinner } from "@components/spinner";
-import { TableWrapper, Th, Td } from "@components/table";
 import { useAddQuery } from "@utils/add-query";
 import { usePaginatedQuery } from "react-query";
 
@@ -21,7 +20,7 @@ const ShowCategory = () => {
   const [searchValue, setSearchValue] = useState(searchTerm);
   const query = useAddQuery();
 
-  const { status, resolvedData, error } = usePaginatedQuery(
+  const { status, resolvedData } = usePaginatedQuery(
     ["showCategory", { id: params.id, page: pageNumber, search: searchTerm, perPage: 10 }],
     showCategoryApi
   );
