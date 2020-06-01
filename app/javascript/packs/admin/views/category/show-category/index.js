@@ -41,6 +41,7 @@ const ShowCategory = () => {
     <AdminLayout>
       <div className="sm:flex sm:justify-between">
         <CategoryHeader
+          id={params.id}
           title={title}
           description={description}
           postCount={postCount}

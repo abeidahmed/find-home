@@ -49,7 +49,8 @@ const CategoryTable = ({ categories, openModal }) => {
                   openModal("EDIT_CATEGORY", {
                     id: category.id,
                     title: category.title,
-                    content: category.description
+                    content: category.description,
+                    refetch: "categoryList"
                   })
                 }
                 className="font-medium text-indigo-600 hover:text-indigo-900"

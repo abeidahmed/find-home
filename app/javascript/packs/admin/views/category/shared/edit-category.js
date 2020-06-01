@@ -7,14 +7,14 @@ import { InputField, TextField } from "@components/field";
 import { ModalTop, ModalBottom, ModalWrapper } from "@components/modal";
 import { useMutation, queryCache } from "react-query";
 
-const EditCategory = ({ id, modalType, closeModal, categoryTitle, categoryContent }) => {
+const EditCategory = ({ id, modalType, closeModal, categoryTitle, categoryContent, refetch }) => {
   const [title, setTitle] = useState(categoryTitle);
   const [description, setDescription] = useState(categoryContent);
   const [error, setError] = useState([]);
 
   const [mutate, { status }] = useMutation(editCategoryApi, {
     onSuccess: () => {
-      queryCache.refetchQueries("categoryList");
+      queryCache.refetchQueries(refetch);
       closeModal();
     },
     throwOnError: true
@@ -34,7 +34,7 @@ const EditCategory = ({ id, modalType, closeModal, categoryTitle, categoryConten
 
   return (
     <CategoryModal
-      isActive={modalType === "EDIT_CATEGORY"}
+      isActive={modalType}
       closeModal={closeModal}
       modalTitle="Edit category"
       error={error}
@@ -50,12 +50,13 @@ const EditCategory = ({ id, modalType, closeModal, categoryTitle, categoryConten
 };
 
 const mapStateToProps = state => {
-  const { id, title, content } = state.modal.modalProps;
+  const { id, title, content, refetch } = state.modal.modalProps;
   return {
     modalType: state.modal.modalType,
     id,
     categoryTitle: title,
-    categoryContent: content
+    categoryContent: content,
+    refetch
   };
 };
 

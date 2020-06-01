@@ -1,7 +1,9 @@
 import React from "react";
+import { connect } from "react-redux";
 import Icon from "@components/icon";
+import { openModal } from "@actions/modal";
 
-const CategoryHeader = ({ title, description, postCount, createdAt }) => {
+const CategoryHeader = ({ id, title, description, postCount, createdAt, openModal }) => {
   return (
     <>
       <div className="flex-1 min-w-0">
@@ -24,6 +26,14 @@ const CategoryHeader = ({ title, description, postCount, createdAt }) => {
         <button
           type="button"
           className="inline-flex items-center px-4 py-2 border border-gray-300 text-sm leading-5 font-medium shadow-sm rounded-md rounded-md text-gray-700 bg-white hover:text-gray-500 focus:outline-none focus:shadow-outline-blue focus:border-blue-300 active:text-gray-800 active:bg-gray-50 transition duration-150 ease-in-out"
+          onClick={() =>
+            openModal("EDIT_CATEGORY", {
+              id,
+              title,
+              content: description,
+              refetch: "showCategory"
+            })
+          }
         >
           <Icon icon="pencil-solid" className="-ml-1 mr-2 h-5 w-5 text-gray-500" />
           Edit
@@ -33,4 +43,13 @@ const CategoryHeader = ({ title, description, postCount, createdAt }) => {
   );
 };
 
-export default CategoryHeader;
+const mapDispatchToProps = dispatch => {
+  return {
+    openModal: (modalType, modalProps) => dispatch(openModal(modalType, modalProps))
+  };
+};
+
+export default connect(
+  null,
+  mapDispatchToProps
+)(CategoryHeader);
