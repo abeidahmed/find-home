@@ -7,6 +7,7 @@ import { store } from "@/store";
 import AdminRoute from "@admin/routes/admin-route";
 import PublicRoute from "@/routes/public-route";
 import ModalRoot from "@components/modal/modal-root";
+import { Spinner } from "@components/spinner";
 
 const App = () => {
   useEffect(() => {
@@ -14,6 +15,8 @@ const App = () => {
       store.dispatch(fetchCurrentUser());
     }
   }, []);
+
+  if (store.getState().currentUser.loading) return <Spinner />;
 
   return (
     <Provider store={store}>
