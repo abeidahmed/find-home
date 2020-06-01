@@ -16,7 +16,7 @@ class Api::V1::TagsController < ApplicationController
 
   def show
     @tag = Tag.find(params[:id])
-    @tag_posts = @tag.posts.paginate(page: params[:page], per_page: params[:per_page])
+    @tag_posts = @tag.posts.search(params[:search]).paginate(page: params[:page], per_page: params[:per_page])
     render :show
   end
 
