@@ -20,7 +20,10 @@ const TagTable = ({ tags, openModal }) => {
         {tags.map(tag => (
           <tr key={tag.id} className="border-b border-gray-200">
             <Td>
-              <Link to="" className="text-blue-600 font-medium hover:text-blue-800">
+              <Link
+                to={`/admin/tags/${tag.id}`}
+                className="text-blue-600 font-medium hover:text-blue-800"
+              >
                 {tag.title}
               </Link>
             </Td>

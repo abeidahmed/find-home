@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import { AdminLayout } from "@components/layout";
 import CategoryHeader from "./components/category-header";
-import { Link, useParams } from "react-router-dom";
 import Pagination from "./components/pagination";
 import PostTable from "./components/post-table";
 import queryString from "query-string";
@@ -10,6 +9,7 @@ import { showCategoryApi } from "@api/category/show-category";
 import { Spinner } from "@components/spinner";
 import { useAddQuery } from "@utils/add-query";
 import { usePaginatedQuery } from "react-query";
+import { useParams } from "react-router-dom";
 
 const ShowCategory = () => {
   const params = useParams();
