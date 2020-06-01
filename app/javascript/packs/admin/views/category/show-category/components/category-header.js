@@ -3,7 +3,7 @@ import { connect } from "react-redux";
 import Icon from "@components/icon";
 import { openModal } from "@actions/modal";
 
-const CategoryHeader = ({ id, title, description, postCount, createdAt, openModal }) => {
+const CategoryHeader = ({ id, title, description, postCountInWords, createdAt, openModal }) => {
   return (
     <>
       <div className="flex-1 min-w-0">
@@ -14,7 +14,7 @@ const CategoryHeader = ({ id, title, description, postCount, createdAt, openModa
         <div className="mt-1 flex flex-col sm:mt-0 sm:flex-row sm:flex-wrap">
           <div className="mt-2 flex items-center text-sm leading-5 text-gray-500 sm:mr-6">
             <Icon icon="book-solid" className="flex-shrink-0 mr-1.5 h-5 w-5 text-gray-400" />
-            {postCount} posts
+            {postCountInWords}
           </div>
           <div className="mt-2 flex items-center text-sm leading-5 text-gray-500">
             <Icon icon="calendar-solid" className="flex-shrink-0 mr-1.5 h-5 w-5 text-gray-400" />

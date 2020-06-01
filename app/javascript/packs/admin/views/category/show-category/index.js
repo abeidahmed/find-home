@@ -32,7 +32,7 @@ const ShowCategory = () => {
       title,
       description,
       createdAt,
-      postCount,
+      postCountInWords,
       categoryPosts: { posts, pageInfo }
     }
   } = resolvedData.data;
@@ -44,7 +44,7 @@ const ShowCategory = () => {
           id={params.id}
           title={title}
           description={description}
-          postCount={postCount}
+          postCountInWords={postCountInWords}
           createdAt={createdAt}
         />
       </div>
