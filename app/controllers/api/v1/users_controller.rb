@@ -1,5 +1,6 @@
 class Api::V1::UsersController < ApplicationController
   before_action :check_authorization, except: [:create]
+  before_action :set_user, only: [:show, :destroy]
 
   def index
     @users = User.search(params[:search]).user_role(params[:user_role]).paginate(page: params[:page], per_page: params[:per_page])
@@ -16,18 +17,16 @@ class Api::V1::UsersController < ApplicationController
   end
 
   def show
-    @user = User.find(params[:id])
     @user_posts = @user.posts.search(params[:search]).paginate(page: params[:page], per_page: params[:per_page])
     render :show
   end
 
   def destroy
-    user = User.find(params[:id])
-    if user.admin? || user.id == current_user.id
+    if prohibited?
       render json: { message: "You cannot perform this action" }, status: :forbidden
     else
-      user.destroy
-      render json: { message: "Successfully deleted user: #{user.first_name}" }, status: :ok
+      @user.destroy
+      render json: { message: "Successfully deleted user: #{@user.full_name}" }
     end
   end
 
@@ -35,5 +34,13 @@ class Api::V1::UsersController < ApplicationController
 
   def user_params
     params.require(:user).permit(:first_name, :last_name, :email, :password)
+  end
+
+  def set_user
+    @user = User.find(params[:id])
+  end
+
+  def prohibited?
+    @user.admin? || @user.id == current_user.id
   end
 end

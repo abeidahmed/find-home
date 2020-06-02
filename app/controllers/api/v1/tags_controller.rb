@@ -1,5 +1,6 @@
 class Api::V1::TagsController < ApplicationController
   before_action :check_authorization, except: [:index, :show]
+  before_action :set_tag, only: [:show, :update, :destroy]
 
   def index
     @tags = Tag.search(params[:search]).paginate(page: params[:page], per_page: params[:per_page])
@@ -15,13 +16,11 @@ class Api::V1::TagsController < ApplicationController
   end
 
   def show
-    @tag = Tag.find(params[:id])
     @tag_posts = @tag.posts.search(params[:search]).paginate(page: params[:page], per_page: params[:per_page])
     render :show
   end
 
   def update
-    @tag = Tag.find(params[:id])
     if @tag.update_attributes(tag_params)
       render :edit
     else
@@ -30,14 +29,17 @@ class Api::V1::TagsController < ApplicationController
   end
 
   def destroy
-    tag = Tag.find(params[:id])
-    tag.destroy
-    render json: { message: "Successfully deleted tag: #{tag.title}" }
+    @tag.destroy
+    render json: { message: "Successfully deleted tag: #{@tag.title}" }
   end
 
   private
 
   def tag_params
     params.require(:tag).permit(:title, :description)
+  end
+
+  def set_tag
+    @tag = Tag.find(params[:id])
   end
 end
