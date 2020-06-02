@@ -28,6 +28,10 @@ class User < ApplicationRecord
     BCrypt::Password.new(self.password_digest).is_password?(password)
   end
 
+  def full_name
+    "#{self.first_name} #{self.last_name}"
+  end
+
   def self.search(search)
     if search.present?
       where(
